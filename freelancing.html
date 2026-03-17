@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelancing Hub | THARUNKUMAR M</title>
+    <meta name="description" content="Browse freelancing services by THARUNKUMAR M — Cybersecurity, IoT, Web, Healthcare, AI/ML projects.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;
+            --bg:#0a0a14;--bg2:#10102a;--surface:#161636;--surface2:#1e1e42;
+            --primary:#7c3aed;--primary-glow:rgba(124,58,237,0.35);
+            --secondary:#06d6a0;--accent:#f59e0b;--danger:#ef4444;
+            --text:#e4e4e7;--muted:#a1a1aa;--subtle:#52527a;
+            --border:rgba(124,58,237,0.2);--card-shadow:0 8px 32px rgba(0,0,0,0.4);
+            --glass:rgba(22,22,54,0.7);--glass-border:rgba(124,58,237,0.15);
+            background:var(--bg);color:var(--text);min-height:100vh;
+        }
+        a{color:var(--primary);text-decoration:none;transition:all .3s}
+        a:hover{color:var(--secondary)}
+        h1,h2,h3,h4{font-family:'Poppins',sans-serif;font-weight:700}
+        .container{max-width:1200px;margin:0 auto;padding:0 24px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;font-size:.9rem;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;text-decoration:none}
+        .btn-primary{background:var(--primary);color:#fff}
+        .btn-primary:hover{background:#6d28d9;transform:translateY(-3px);box-shadow:0 8px 25px var(--primary-glow);color:#fff}
+        .btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary)}
+        .btn-outline:hover{background:rgba(124,58,237,0.1);transform:translateY(-3px);color:var(--primary)}
+        .btn-secondary{background:var(--secondary);color:#0a0a14}
+        .btn-secondary:hover{background:#05c896;transform:translateY(-3px);color:#0a0a14}
+        .btn-sm{padding:8px 18px;font-size:.8rem;border-radius:8px}
+        .hl{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+        /* ===== TOP BAR ===== */
+        .topbar{position:sticky;top:0;z-index:100;padding:16px 0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border)}
+        .topbar-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 24px}
+        .topbar a.back{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:500}
+        .topbar a.back:hover{color:var(--text)}
+        .topbar h1{font-size:1.2rem}
+
+        /* ===== HERO ===== */
+        .fl-hero{padding:80px 0 40px;text-align:center;position:relative;overflow:hidden}
+        .fl-hero h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:12px}
+        .fl-hero p{color:var(--muted);max-width:600px;margin:0 auto 40px;font-size:1rem}
+        .fl-hero .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.12}
+        .fl-hero .orb-1{width:300px;height:300px;background:var(--primary);top:-80px;right:-60px}
+        .fl-hero .orb-2{width:200px;height:200px;background:var(--secondary);bottom:-60px;left:-40px}
+
+        /* ===== CATEGORIES ===== */
+        .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;margin-bottom:60px}
+        .cat-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px 20px;text-align:center;cursor:pointer;transition:all .4s;position:relative;overflow:hidden}
+        .cat-card:hover,.cat-card.active{transform:translateY(-6px);box-shadow:var(--card-shadow);border-color:var(--primary)}
+        .cat-card.active{background:var(--surface2);border-color:var(--secondary)}
+        .cat-card.active::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--primary),var(--secondary))}
+        .cat-icon{font-size:2.4rem;margin-bottom:10px;display:block}
+        .cat-name{font-size:.95rem;font-weight:700;font-family:'Poppins',sans-serif}
+        .cat-count{font-size:.75rem;color:var(--muted);margin-top:4px}
+
+        /* ===== PROJECT LISTING ===== */
+        .listing-section{margin-bottom:60px;display:none}
+        .listing-section.active{display:block}
+        .listing-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+        .listing-header h3{font-size:1.4rem}
+        .listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px}
+        .fl-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .4s;position:relative;overflow:hidden}
+        .fl-card:hover{transform:translateY(-4px);box-shadow:var(--card-shadow);border-color:var(--secondary)}
+        .fl-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--primary),var(--secondary))}
+        .fl-status{display:inline-block;padding:4px 12px;border-radius:10px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+        .fl-status.available{background:rgba(6,214,160,0.12);color:var(--secondary)}
+        .fl-status.progress{background:rgba(245,158,11,0.12);color:var(--accent)}
+        .fl-status.completed{background:rgba(124,58,237,0.12);color:var(--primary)}
+        .fl-card h3{font-size:1.1rem;margin-bottom:8px}
+        .fl-card p{color:var(--muted);font-size:.85rem;line-height:1.6;margin-bottom:12px}
+        .fl-meta{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+        .fl-meta span{font-size:.78rem;color:var(--subtle);display:flex;align-items:center;gap:4px}
+        .fl-meta span strong{color:var(--text);font-weight:500}
+        .fl-skills{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+        .fl-skills span{background:var(--bg2);color:var(--muted);padding:3px 10px;border-radius:6px;font-size:.72rem}
+
+        /* ===== CHATBOT SECTION (Terminal Look) ===== */
+        .chatbot-section{padding:60px 0;border-top:1px solid var(--border)}
+        .chatbot-wrap{max-width:700px;margin:0 auto}
+        .chatbot-header{text-align:center;margin-bottom:32px}
+        .chatbot-header h2{font-size:1.8rem;margin-bottom:8px}
+        .chatbot-header p{color:var(--muted);font-size:.95rem}
+
+        .chat-window{background:#0a0a0a;border:1px solid #333;border-radius:8px;overflow:hidden;box-shadow:0 0 20px rgba(6,214,160,.1);font-family:'Courier New', Courier, monospace}
+        .chat-title{padding:10px 20px;border-bottom:1px solid #333;display:flex;align-items:center;gap:10px;background:#151515;color:#bbb}
+        .chat-title .dot{width:12px;height:12px;border-radius:50%;background:#ff5f56;display:inline-block;box-shadow:20px 0 0 #ffbd2e, 40px 0 0 #27c93f;animation:none;margin-right:45px}
+        .chat-title span{font-weight:600;font-size:.85rem;letter-spacing:1px;font-family:sans-serif}
+
+        .chat-messages{padding:24px;min-height:250px;max-height:400px;overflow-y:auto;color:#0f0}
+        .chat-msg{display:flex;gap:10px;margin-bottom:10px;animation:none}
+        .chat-msg.bot{flex-direction:row;color:var(--secondary)}
+        .chat-msg.user{flex-direction:row;color:#fff}
+        .chat-avatar{display:none}
+        .chat-bubble{max-width:100%;padding:0;background:none!important;border-radius:0;font-size:.9rem;line-height:1.5;color:inherit!important}
+        .chat-bubble .cli-prefix{font-weight:700;margin-right:8px}
+        .chat-msg.bot .chat-bubble .cli-prefix{color:var(--secondary)}
+        .chat-msg.user .chat-bubble .cli-prefix{color:#fff}
+
+        .chat-input-wrap{padding:16px 20px;border-top:1px solid #333;display:flex;gap:10px;background:#050505;align-items:center}
+        .chat-input-wrap::before{content:">";color:var(--secondary);font-size:1.2rem;font-weight:bold;font-family:'Courier New', Courier, monospace}
+        .chat-input-wrap input{flex:1;padding:0;background:transparent;border:none;color:var(--secondary);font-size:1rem;font-family:'Courier New', Courier, monospace;outline:none;caret-color:var(--secondary)}
+        .chat-send{display:none}
+
+        /* ===== FOOTER ===== */
+        .footer{padding:40px 0;border-top:1px solid var(--border);text-align:center}
+        .footer p{color:var(--muted);font-size:.85rem}
+
+        @media(max-width:768px){
+            .cat-grid{grid-template-columns:repeat(2,1fr)}
+            .listing-grid{grid-template-columns:1fr}
+            .chatbot-wrap{margin:0 16px}
+        }
+        /* ===== ADMIN ELEMENTS ===== */
+        .admin-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);z-index:9998}
+        .admin-overlay.active{display:block}
+        .admin-modal{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px;z-index:9999;width:380px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+        .admin-modal.active{display:block}
+        .admin-modal h3{margin-bottom:8px;font-size:1.3rem}
+        .admin-modal p{color:var(--muted);font-size:.85rem;margin-bottom:20px}
+        
+        .admin-sidebar{display:none;position:fixed;top:0;right:0;width:420px;height:100vh;background:var(--surface);border-left:1px solid var(--border);z-index:9999;overflow-y:auto;box-shadow:-8px 0 40px rgba(0,0,0,.3);animation:slideIn .3s ease}
+        .admin-sidebar.active{display:block}
+        @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+        
+        .admin-header{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--surface);z-index:1}
+        .admin-close{width:36px;height:36px;border-radius:10px;background:var(--bg2);border:1px solid var(--border);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center}
+        
+        .admin-tabs{display:flex;border-bottom:1px solid var(--border);overflow-x:auto}
+        .admin-tab{padding:12px 18px;font-size:.8rem;font-weight:600;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;flex:1}
+        .admin-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+        
+        .admin-content{padding:24px}
+        .admin-tab-panel{display:none}
+        .admin-tab-panel.active{display:block}
+        .admin-field{margin-bottom:16px}
+        .admin-field label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:6px}
+        .admin-field input,.admin-field textarea,.admin-field select{width:100%;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.85rem;font-family:'Inter',sans-serif;outline:none}
+        
+        .draggable-admin{position:fixed;bottom:24px;right:24px;background:var(--secondary);color:#0a0a14;padding:12px 20px;border-radius:30px;font-weight:700;font-size:.9rem;box-shadow:0 8px 30px rgba(6,214,160,.4);cursor:grab;z-index:9997;display:none;user-select:none;border:2px solid #000;animation:pulseAd 2s infinite}
+        .draggable-admin.show{display:flex;align-items:center;gap:6px}
+        .draggable-admin:active{cursor:grabbing}
+        @keyframes pulseAd { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+        /* Inline Edit Form in Chat */
+        .edit-input { width: 100%; padding: 6px 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: 'Inter', sans-serif; font-size: .8rem; margin-top: 2px; }
+
+        @media(max-width:480px){
+            .cat-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+            .cat-card{padding:20px 14px}
+            .admin-sidebar{width:100%}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <nav class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="back">⬅ Back to Portfolio</a>
+            <h1>💼 Freelancing <span class="hl">Hub</span></h1>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="fl-hero">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="container">
+            <h2>Explore My <span class="hl">Services</span></h2>
+            <p>Browse by category to find the right service for your project. Can't find what you need? Submit your own idea below!</p>
+        </div>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="container" style="padding-bottom:20px">
+        <div class="cat-grid" id="catGrid"></div>
+    </section>
+
+    <!-- PROJECT LISTING (filtered) -->
+    <section class="container">
+        <div class="listing-section" id="listingSection">
+            <div class="listing-header">
+                <h3 id="listingTitle">Projects</h3>
+                <button class="btn btn-outline btn-sm" onclick="showAll()">Show All</button>
+            </div>
+            <div class="listing-grid" id="listingGrid"></div>
+        </div>
+    </section>
+
+    <!-- CHATBOT IDEA SUBMISSION -->
+    <section class="chatbot-section">
+        <div class="container">
+            <div class="chatbot-wrap">
+                <div class="chatbot-header">
+                    <h2>💡 Build Your <span class="hl">Own Idea</span></h2>
+                    <p>Have a custom project? Chat with me to check if I can build it for you!</p>
+                </div>
+                <div class="chat-window">
+                    <div class="chat-title">
+                        <div class="dot"></div>
+                        <span>TK_Bot_Terminal_v1.0.exe</span>
+                    </div>
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="chat-msg bot">
+                            <div class="chat-bubble"><span class="cli-prefix">[TK-Bot]$</span>Hey there! 👋 I'm TK Bot. Want to check if Tharunkumar can build your project idea? Let's start! What's your <strong>full name</strong>?</div>
+                        </div>
+                    </div>
+                    <div class="chat-input-wrap">
+                        <input type="text" id="chatInput" placeholder="Type your answer..." autofocus>
+                        <button class="chat-send" onclick="sendChat()">➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN PANEL & FLOATING ICON -->
+    <div class="draggable-admin" id="draggableAdmin" title="Open Admin Panel" onclick="openAdminSidebar()">⚙️ Admin</div>
+    <div class="admin-overlay" id="adminOverlay"></div>
+    <div class="admin-modal" id="adminModal">
+        <h3>🔐 Admin Access</h3>
+        <p style="font-size:0.85rem;margin-bottom:12px;color:var(--muted)">Enter your Admin Password or GitHub PAT</p>
+        <div class="admin-err" id="adminErr" style="margin-bottom:8px"></div>
+        <input type="password" id="adminPwd" placeholder="ghp_..." autofocus style="width:100%;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);outline:none;margin-bottom:14px;">
+        <button class="btn btn-primary" style="width:100%" onclick="adminLogin()">Verify Token</button>
+        <button class="btn btn-outline" style="width:100%;margin-top:8px" onclick="closeAdminModal()">Cancel</button>
+    </div>
+    
+    <div class="admin-sidebar" id="adminSidebar">
+        <div class="admin-header">
+            <h3>⚙️ Freelancing Admin</h3>
+            <button class="admin-close" onclick="closeAdmin()">✕</button>
+        </div>
+        <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="projects">Projects</button>
+            <button class="admin-tab" data-tab="categories">Categories</button>
+            <button class="admin-tab" data-tab="ideas">Client Ideas</button>
+            <button class="admin-tab" data-tab="bot">Bot Config</button>
+            <button class="admin-tab" data-tab="settings">Settings</button>
+        </div>
+        <div class="admin-content">
+            <div class="admin-tab-panel active" id="panel-projects">
+                <div id="fl-projects-list"></div>
+                <hr style="border-color:var(--border);margin:16px 0">
+                <h4 style="margin-bottom:12px;font-size:.9rem;">Add New Project</h4>
+                <div class="admin-field"><label>Category</label><select id="new-fl-cat"></select></div>
+                <div class="admin-field"><label>Project Title</label><input id="new-fl-title" placeholder="e.g. Health Dashboard"></div>
+                <div class="admin-field"><label>Description</label><textarea id="new-fl-desc" rows="2"></textarea></div>
+                <div class="admin-field"><label>Status</label><select id="new-fl-status"><option value="available">Available (🟢)</option><option value="progress">In Progress (🟡)</option><option value="completed">Completed (✅)</option></select></div>
+                <div class="admin-field"><label>Budget</label><input id="new-fl-budget" placeholder="$500-$1000"></div>
+                <div class="admin-field"><label>Time/Duration</label><input id="new-fl-time" placeholder="2-4 weeks"></div>
+                <div class="admin-field"><label>Required Skills (comma-separated)</label><input id="new-fl-skills" placeholder="React, Node.js"></div>
+                <button class="btn btn-secondary btn-sm" onclick="addFlProject()">➕ Add Project</button>
+            </div>
+            <div class="admin-tab-panel" id="panel-categories">
+                <div id="fl-categories-list"></div>
+                <hr style="border-color:var(--border);margin:16px 0">
+                <h4 style="margin-bottom:12px;font-size:.9rem;">Add New Category</h4>
+                <div class="admin-field"><label>ID (lowercase, no spaces)</label><input id="new-cat-id" placeholder="cloud"></div>
+                <div class="admin-field"><label>Icon Emoji</label><input id="new-cat-icon" placeholder="☁️"></div>
+                <div class="admin-field"><label>Name</label><input id="new-cat-name" placeholder="Cloud Computing"></div>
+                <button class="btn btn-secondary btn-sm" onclick="addFlCategory()">➕ Add Category</button>
+            </div>
+            <div class="admin-tab-panel" id="panel-ideas">
+                <div id="fl-ideas-list" style="max-height:600px;overflow-y:auto;padding-right:8px"></div>
+                <button class="btn btn-outline" style="width:100%;margin-top:16px;border-color:var(--danger);color:var(--danger)" onclick="clearIdeas()">🗑️ Clear All Ideas</button>
+            </div>
+            <div class="admin-tab-panel" id="panel-bot">
+                <p style="font-size:.8rem;color:var(--muted);margin-bottom:16px;line-height:1.4">Customize the questions TK Bot asks your clients. <br><em style="font-size:.7rem">(Name and Email are always asked first).</em></p>
+                <div id="fl-bot-q-list"></div>
+                <hr style="border-color:var(--border);margin:16px 0">
+                <h4 style="margin-bottom:12px;font-size:.9rem;">Add New Question</h4>
+                <div class="admin-field"><label>Data Key (e.g. 'budget')</label><input id="new-bot-key" placeholder="budget"></div>
+                <div class="admin-field"><label>Question Text (HTML allowed)</label><input id="new-bot-q" placeholder="What is your <strong>budget</strong>?"></div>
+                <button class="btn btn-secondary btn-sm" onclick="addBotQuestion()">➕ Add Question</button>
+            </div>
+            <div class="admin-tab-panel" id="panel-settings">
+                <h4 style="margin-bottom:12px;font-size:1.1rem;color:var(--primary)">🔐 Biometric Passkeys (Local)</h4>
+                <p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Register a device passkey (Windows Hello, Touch ID) to skip typing your GitHub Token on this specific browser/device.</p>
+                <button class="btn btn-primary btn-sm" onclick="registerPasskey()" style="margin-bottom:16px">➕ Register Device Passkey</button>
+                <button class="btn btn-outline btn-sm" onclick="clearPasskey()" style="margin-bottom:16px;border-color:var(--danger);color:var(--danger)">🗑️ Remove Passkey</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-links" style="margin-bottom:12px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+            <a href="index.html">Back to Portfolio</a>
+            <a href="learn.html">Learn & Document</a>
+        </div>
+    </footer>
+
+    <script>
+    /* ===== FREELANCING DATA ===== */
+    const categories = [
+        { id: 'cybersecurity', icon: '🔒', name: 'Cybersecurity' },
+        { id: 'web', icon: '🌐', name: 'Web-based' },
+        { id: 'iot', icon: '📡', name: 'IoT-based' },
+        { id: 'healthcare', icon: '🏥', name: 'Healthcare' },
+        { id: 'aiml', icon: '🤖', name: 'AI / ML' },
+        { id: 'embedded', icon: '⚡', name: 'Embedded Systems' },
+    ];
+
+    const defaultProjects = [
+        { cat:'cybersecurity', title:'Network Penetration Testing', desc:'Full-scope penetration testing for small to medium businesses — vulnerability assessment, exploitation, and detailed remediation report.', status:'progress', budget:'$500–$1200', time:'2–4 weeks', skills:['Kali Linux','Metasploit','Nmap','Burp Suite'] },
+        { cat:'cybersecurity', title:'Web Application Security Audit', desc:'Comprehensive security testing of web applications — OWASP Top 10, API testing, and vulnerability remediation advice.', status:'available', budget:'$400–$900', time:'1–3 weeks', skills:['Burp Suite','OWASP','Python','SQL Injection'] },
+        { cat:'iot', title:'IoT Security Audit', desc:'Comprehensive security assessment of your IoT infrastructure — device firmware analysis, network traffic monitoring, and vulnerability reporting.', status:'available', budget:'$300–$800', time:'1–2 weeks', skills:['IoT','Penetration Testing','Wireshark','Network Security'] },
+        { cat:'embedded', title:'Embedded Systems Development', desc:'Custom embedded system solutions — Arduino/Raspberry Pi projects, sensor integrations, hardware prototyping, and firmware development.', status:'available', budget:'$200–$600', time:'1–3 weeks', skills:['Arduino','Raspberry Pi','Embedded C','IoT'] },
+        { cat:'aiml', title:'AI/ML Model Development', desc:'Custom machine learning models for security analytics, anomaly detection, and data classification using Python and TensorFlow.', status:'available', budget:'$400–$1000', time:'2–5 weeks', skills:['Python','TensorFlow','Machine Learning','Data Analysis'] },
+        { cat:'web', title:'Full Stack Web Application', desc:'End-to-end web application development — responsive frontend, REST APIs, database design, and deployment.', status:'available', budget:'$600–$1500', time:'3–6 weeks', skills:['HTML/CSS','JavaScript','Python','Flask/Django'] },
+        { cat:'healthcare', title:'Health Monitoring IoT System', desc:'Connected health monitoring devices with real-time dashboards — heart rate, SpO2, temperature sensors with alert systems.', status:'available', budget:'$500–$1200', time:'3–5 weeks', skills:['Arduino','Sensors','Python','Web Dashboard'] },
+        { cat:'iot', title:'Smart Home Automation', desc:'Custom smart home solutions — sensor networks, automated controls, mobile monitoring, and voice assistant integration.', status:'available', budget:'$300–$800', time:'2–4 weeks', skills:['Arduino','Raspberry Pi','MQTT','Node.js'] },
+    ];
+
+    function getFlData() {
+        return JSON.parse(localStorage.getItem('fl_projects') || 'null') || defaultProjects;
+    }
+
+    /* ===== RENDER CATEGORIES ===== */
+    const catGrid = document.getElementById('catGrid');
+    function renderCategories() {
+        const projects = getFlData();
+        catGrid.innerHTML = categories.map(c => {
+            const count = projects.filter(p => p.cat === c.id).length;
+            return `<div class="cat-card" data-cat="${c.id}" onclick="filterCategory('${c.id}')">
+                <span class="cat-icon">${c.icon}</span>
+                <div class="cat-name">${c.name}</div>
+                <div class="cat-count">${count} project${count !== 1 ? 's' : ''}</div>
+            </div>`;
+        }).join('');
+    }
+    renderCategories();
+
+    /* ===== FILTER & LISTING ===== */
+    let activeCategory = null;
+    function filterCategory(catId) {
+        activeCategory = catId;
+        const cat = categories.find(c => c.id === catId);
+        document.querySelectorAll('.cat-card').forEach(c => c.classList.toggle('active', c.dataset.cat === catId));
+        document.getElementById('listingTitle').textContent = cat.icon + ' ' + cat.name + ' Projects';
+        const projects = getFlData().filter(p => p.cat === catId);
+        renderListing(projects);
+        document.getElementById('listingSection').classList.add('active');
+        document.getElementById('listingSection').scrollIntoView({behavior:'smooth',block:'start'});
+    }
+
+    function showAll() {
+        activeCategory = null;
+        document.querySelectorAll('.cat-card').forEach(c => c.classList.remove('active'));
+        document.getElementById('listingTitle').textContent = 'All Projects';
+        renderListing(getFlData());
+    }
+
+    function renderListing(projects) {
+        const grid = document.getElementById('listingGrid');
+        if (projects.length === 0) {
+            grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted)">No projects in this category yet. Contact me to discuss!</div>';
+            return;
+        }
+        const statusMap = {available:'🟢 Available', progress:'🟡 In Progress', completed:'✅ Completed'};
+        grid.innerHTML = projects.map(p => `
+            <div class="fl-card">
+                <span class="fl-status ${p.status}">${statusMap[p.status]||p.status}</span>
+                <h3>${p.title}</h3>
+                <p>${p.desc}</p>
+                <div class="fl-meta">
+                    <span>💰 <strong>${p.budget}</strong></span>
+                    <span>⏱️ <strong>${p.time}</strong></span>
+                </div>
+                <div class="fl-skills">${p.skills.map(s=>`<span>${s}</span>`).join('')}</div>
+                <a href="index.html#contact" class="btn btn-secondary btn-sm">${p.status==='progress'?'Currently Booked':'Contact for Details'}</a>
+            </div>
+        `).join('');
+    }
+
+    /* ===== CHATBOT IDEA SUBMISSION ===== */
+    const chatMsgs = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    let chatStep = 0;
+    function getBotQuestions() {
+        const defaultQ = [
+            { key:'phone', q:"Great! What's your <strong>Contact Number</strong>? (Optional, press Enter to skip)" },
+            { key:'college', q:"Which <strong>college/university</strong> are you in?" },
+            { key:'dept', q:"Which <strong>department</strong> are you studying in?" },
+            { key:'year', q:"What <strong>year</strong> are you currently in?" },
+            { key:'idea', q:"Awesome! Now, please describe your <strong>project idea</strong> in detail. What do you want built?" },
+            { key:'category', q:"Which <strong>category</strong> does this fall under? (e.g., Cybersecurity, Web, IoT, AI/ML)" },
+            { key:'timeline', q:"What is the <strong>time period</strong> you expect to complete this project?" },
+            { q:null } // Sentinel value to indicate end of questions
+        ];
+        return JSON.parse(localStorage.getItem('fl_bot_questions') || JSON.stringify(defaultQ));
+    }
+
+    const chatData = {};
+    let questions = getBotQuestions(); // Initialize questions from storage or default
+
+    function restartChat() {
+        chatMsgs.innerHTML = `
+            <div class="chat-msg bot">
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-bubble">Hey there! 👋 Let's try again. What's your <strong>full name</strong>?</div>
+            </div>
+        `;
+        chatStep = 0;
+        Object.keys(chatData).forEach(k => delete chatData[k]);
+        chatInput.disabled = false;
+        chatInput.placeholder = 'Type your answer...';
+        chatInput.focus();
+    }
+
+    chatInput.addEventListener('keydown', e => { if(e.key==='Enter') sendChat(); });
+
+    function addMsg(text, isUser) {
+        const div = document.createElement('div');
+        div.className = 'chat-msg ' + (isUser ? 'user' : 'bot');
+        div.innerHTML = `<div class="chat-bubble"><span class="cli-prefix">[${isUser?'User':'TK-Bot'}]$</span>${text}</div>`;
+        chatMsgs.appendChild(div);
+        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
+
+    function sendChat() {
+        const val = chatInput.value.trim();
+        if (!val && chatStep !== 2) return;
+        addMsg(val || 'Skipped', true);
+        chatInput.value = '';
+
+        // Validation for Email (mandatory at step 1)
+        if (chatStep === 1) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(val)) {
+                chatMsgs.lastChild.remove(); // Remove invalid user message
+                addMsg("Please enter a valid <strong>Email Address</strong>.", false);
+                return;
+            }
+            chatData.email = val;
+        } else if (chatStep === 0) {
+            chatData.name = val;
+            addMsg("What is your <strong>Email ID</strong>? (Mandatory)", false);
+            chatStep++;
+            return;
+        } else {
+            const q = questions[chatStep - 2];
+            if (q) chatData[q.key] = val || 'N/A';
+        }
+
+        chatStep++;
+        if (chatStep - 1 <= questions.length) {
+            const next = questions[chatStep - 2];
+            if (next.q) {
+                setTimeout(() => addMsg(next.q, false), 600);
+            } else {
+                // Final step — build summary
+                setTimeout(() => {
+                    renderFinalSummary();
+                    // Disable further input
+                    chatInput.disabled = true;
+                    chatInput.placeholder = 'Submission complete! ✅';
+                }, 800);
+            }
+        }
+    }
+
+    function renderFinalSummary(isEditMode = false) {
+        // Remove previous summary blocks and buttons if they exist
+        document.querySelectorAll('.final-summary-block').forEach(el => el.remove());
+        
+        const summaryId = 'summary-' + Date.now();
+        
+        let content = '';
+        if (isEditMode) {
+            content += `<div style="margin-bottom:8px"><strong>Name:</strong> <input type="text" id="edit-name" value="${chatData.name}" class="edit-input"></div>`;
+            content += `<div style="margin-bottom:8px"><strong>Email:</strong> <input type="email" id="edit-email" value="${chatData.email}" class="edit-input"></div>`;
+            const qs = getBotQuestions().filter(q => q.key);
+            qs.forEach(q => {
+                if (q.key === 'idea') {
+                    content += `<div style="margin-bottom:8px"><strong>${q.key}:</strong><br><textarea id="edit-${q.key}" class="edit-input" rows="3">${chatData[q.key] || ''}</textarea></div>`;
+                } else {
+                    content += `<div style="margin-bottom:8px"><strong>${q.key}:</strong> <input type="text" id="edit-${q.key}" value="${chatData[q.key] || ''}" class="edit-input"></div>`;
+                }
+            });
+            content += `<button onclick="saveEdits('${summaryId}')" class="btn btn-primary btn-sm" style="margin-top:8px">💾 Save & Update</button>
+                        <button onclick="renderFinalSummary(false)" class="btn btn-outline btn-sm" style="margin-top:8px">Cancel</button>`;
+        } else {
+            content += `Thanks <strong>${chatData.name}</strong>! Here's your submission summary:<br><br>`;
+            content += `📧 <strong>Email:</strong> ${chatData.email}<br>`;
+            const qs = getBotQuestions().filter(q => q.key);
+            qs.forEach(q => {
+                content += `🔹 <strong>${q.key}:</strong> ${chatData[q.key] || 'N/A'}<br>`;
+            });
+            content += `<br>I'll review this and get back to you! You can also reach me at <a href="mailto:tharuncys@gmail.com">tharuncys@gmail.com</a> or <a href="https://wa.me/">WhatsApp</a>.`;
+        }
+
+        const div = document.createElement('div');
+        div.className = 'chat-msg bot final-summary-block';
+        div.id = summaryId;
+        div.innerHTML = `<div class="chat-bubble"><span class="cli-prefix">[TK-Bot]$</span>${content}</div>`;
+        chatMsgs.appendChild(div);
+        
+        if (!isEditMode) {
+            // Store submission (Update existing or push new)
+            let subs = JSON.parse(localStorage.getItem('fl_submissions') || '[]');
+            // Try to find if this exact timestamp session exists to update, otherwise push
+            if(!chatData.timestamp) {
+                chatData.timestamp = new Date().toISOString();
+                subs.push({...chatData, date: chatData.timestamp});
+            } else {
+                const idx = subs.findIndex(s => s.timestamp === chatData.timestamp);
+                if(idx > -1) subs[idx] = {...chatData, date: chatData.timestamp};
+            }
+            localStorage.setItem('fl_submissions', JSON.stringify(subs));
+            
+            // Generate Buttons
+            let mailBodyLines = [`Name: ${chatData.name}`, `Email: ${chatData.email}`];
+            const qs = getBotQuestions().filter(q => q.key);
+            qs.forEach(q => mailBodyLines.push(`${q.key}: ${chatData[q.key] || 'N/A'}`));
+            
+            const mailBodyStr = encodeURIComponent(mailBodyLines.join('\n'));
+            const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=tharuncys@gmail.com&su=New Project Idea Submission&body=${mailBodyStr}`;
+            
+            const btnDiv = document.createElement('div');
+            btnDiv.className = 'chat-msg bot final-summary-block';
+            btnDiv.innerHTML = `
+                <div class="chat-avatar">🤖</div>
+                <div class="chat-bubble" style="background:transparent;padding:0">
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <a href="${gmailLink}" target="_blank" class="btn btn-primary btn-sm">📧 Click here to send via Gmail</a>
+                        <button onclick="renderFinalSummary(true)" class="btn btn-outline btn-sm">✏️ Edit Response</button>
+                    </div>
+                </div>
+            `;
+            chatMsgs.appendChild(btnDiv);
+        }
+        
+        chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }
+
+    function saveEdits(summaryId) {
+        chatData.name = document.getElementById('edit-name').value;
+        chatData.email = document.getElementById('edit-email').value;
+        
+        const qs = getBotQuestions().filter(q => q.key);
+        qs.forEach(q => {
+            const el = document.getElementById('edit-' + q.key);
+            if(el) chatData[q.key] = el.value;
+        });
+        
+        // Remove the edit form visually
+        document.getElementById(summaryId).remove();
+        // Re-render summary without edit mode
+        renderFinalSummary(false);
+    }
+
+    // ===== BOT QUESTION EXPERIMENT =====
+    function renderBotQuestionsList() {
+        const qList = getBotQuestions();
+        const c = document.getElementById('fl-bot-q-list');
+        // The last item is {q: null} to finish the chat gracefully. Don't show it as editable.
+        const editableQs = qList.filter(q => q.key);
+        
+        c.innerHTML = editableQs.map((q, i) => `
+            <div style="margin-bottom:10px;padding:12px;background:var(--bg2);border-radius:10px;position:relative;">
+                <div style="font-size:.75rem;color:var(--muted);margin-bottom:6px;display:flex;justify-content:space-between;">
+                    <span><strong>Key:</strong> ${q.key}</span>
+                    <div style="display:flex;gap:4px">
+                        ${i > 0 ? `<button onclick="moveBotQuestion(${i}, -1)" style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:4px;cursor:pointer;padding:2px 6px">▲</button>` : ''}
+                        ${i < editableQs.length - 1 ? `<button onclick="moveBotQuestion(${i}, 1)" style="background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:4px;cursor:pointer;padding:2px 6px">▼</button>` : ''}
+                        <button onclick="removeBotQuestion(${i})" style="background:var(--danger);color:#fff;border:none;border-radius:4px;padding:2px 6px;cursor:pointer;margin-left:8px">✕</button>
+                    </div>
+                </div>
+                <input value="${q.q.replace(/"/g, '&quot;')}" onchange="updateBotQuestion(${i}, this.value)" style="width:100%;padding:8px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.85rem">
+            </div>
+        `).join('');
+    }
+
+    function addBotQuestion() {
+        const key = document.getElementById('new-bot-key').value.trim();
+        const qText = document.getElementById('new-bot-q').value.trim();
+        if (!key || !qText) return alert('Key and text required!');
+        
+        const qList = getBotQuestions();
+        // Insert right before the final { q: null } element
+        qList.splice(qList.length - 1, 0, { key, q: qText });
+        
+        localStorage.setItem('fl_bot_questions', JSON.stringify(qList));
+        questions = getBotQuestions(); // Reload currently active questions
+        renderBotQuestionsList();
+        
+        document.getElementById('new-bot-key').value = '';
+        document.getElementById('new-bot-q').value = '';
+    }
+
+    function removeBotQuestion(i) {
+        if(!confirm('Remove this question?')) return;
+        const qList = getBotQuestions();
+        qList.splice(i, 1);
+        localStorage.setItem('fl_bot_questions', JSON.stringify(qList));
+        questions = getBotQuestions();
+        renderBotQuestionsList();
+    }
+
+    function updateBotQuestion(i, newText) {
+        const qList = getBotQuestions();
+        qList[i].q = newText;
+        localStorage.setItem('fl_bot_questions', JSON.stringify(qList));
+        questions = getBotQuestions();
+    }
+
+    function moveBotQuestion(i, dir) {
+        const qList = getBotQuestions();
+        const temp = qList[i];
+        qList[i] = qList[i + dir];
+        qList[i + dir] = temp;
+        localStorage.setItem('fl_bot_questions', JSON.stringify(qList));
+        questions = getBotQuestions();
+        renderBotQuestionsList();
+    }
+
+    /* ===== FREELANCING ADMIN SYSTEM ===== */
+    const DEFAULT_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
+    let adminActive = false;
+    let flAttempts = 0;
+    let isUnlocked = false;
+
+    async function sha256(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Initialize password hash if missing (fallback to same as main portfolio)
+    (async () => {
+        if (!localStorage.getItem('admin_pwd_hash')) {
+            localStorage.setItem('admin_pwd_hash', await sha256('tharun@2025'));
+        }
+    })();
+
+    document.addEventListener('keydown', e => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+            e.preventDefault();
+            if(isUnlocked) openAdminSidebar();
+            else openAdminModal();
+        }
+    });
+
+    async function openAdminModal() {
+        if (localStorage.getItem('admin_passkey_registered') === 'true') {
+            try {
+                const assertion = await navigator.credentials.get({
+                    publicKey: {
+                        challenge: new Uint8Array(32),
+                        allowCredentials: [{
+                            id: Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c => c.charCodeAt(0)),
+                            type: 'public-key'
+                        }],
+                        userVerification: 'required'
+                    }
+                });
+                if (assertion) {
+                    isUnlocked = true;
+                    if(document.getElementById('draggableAdmin')) document.getElementById('draggableAdmin').classList.add('show');
+                    openAdminSidebar();
+                    return;
+                }
+            } catch (e) {
+                console.log('Passkey skipped or failed', e);
+            }
+        }
+        document.getElementById('adminOverlay').classList.add('active');
+        document.getElementById('adminModal').classList.add('active');
+        document.getElementById('adminPwd').value = localStorage.getItem('admin_gh_token') || '';
+        document.getElementById('adminErr').textContent = '';
+        setTimeout(() => document.getElementById('adminPwd').focus(), 100);
+    }
+
+    function closeAdminModal() {
+        document.getElementById('adminOverlay').classList.remove('active');
+        document.getElementById('adminModal').classList.remove('active');
+    }
+
+    document.getElementById('adminPwd').addEventListener('keydown', e => {
+        if (e.key === 'Enter') adminLogin();
+    });
+
+    async function adminLogin() {
+        const input = document.getElementById('adminPwd').value.trim();
+        if (!input) return;
+        try {
+            document.getElementById('adminErr').textContent = 'Verifying credentials...';
+            document.getElementById('adminErr').style.color = 'var(--text)';
+            
+            // 1. Check if it's the static password hash
+            const hash = await sha256(input);
+            const storedHash = localStorage.getItem('admin_pwd_hash');
+            if (hash === storedHash || hash === DEFAULT_HASH) {
+                flAttempts = 0;
+                isUnlocked = true;
+                closeAdminModal();
+                if(document.getElementById('draggableAdmin')) document.getElementById('draggableAdmin').classList.add('show');
+                openAdminSidebar();
+                return;
+            }
+
+            // 2. If not the password, check if it's a valid GitHub token
+            const res = await fetch('https://api.github.com/user', {
+                headers: { 'Authorization': `token ${input}` }
+            });
+            const data = await res.json();
+            
+            if (res.ok && data.login === 'Tharuncys') {
+                flAttempts = 0;
+                isUnlocked = true;
+                localStorage.setItem('admin_gh_token', input);
+                closeAdminModal();
+                if(document.getElementById('draggableAdmin')) document.getElementById('draggableAdmin').classList.add('show');
+                openAdminSidebar();
+            } else {
+                throw new Error(data.message || 'Invalid Password or GitHub Token');
+            }
+        } catch (e) {
+            flAttempts++;
+            const left = 3 - flAttempts;
+            document.getElementById('adminErr').style.color = 'var(--danger)';
+            document.getElementById('adminErr').textContent = left > 0 ? `Failed: ${e.message}. ${left} attempts left.` : 'Locked out. Refresh to retry.';
+            if (flAttempts >= 3) document.getElementById('adminPwd').disabled = true;
+        }
+    }
+
+    function openAdminSidebar() {
+        adminActive = true;
+        document.getElementById('adminSidebar').classList.add('active');
+        document.getElementById('adminOverlay').classList.add('active');
+        loadFlAdminData();
+    }
+
+    function closeAdmin() {
+        adminActive = false;
+        document.getElementById('adminSidebar').classList.remove('active');
+        document.getElementById('adminOverlay').classList.remove('active');
+    }
+
+    document.getElementById('adminOverlay').addEventListener('click', () => {
+        if (adminActive) closeAdmin();
+        else closeAdminModal();
+    });
+
+    // Tab switching for Fl Admin
+    document.querySelectorAll('.admin-sidebar .admin-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.admin-sidebar .admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-sidebar .admin-tab-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+        });
+    });
+
+    /* ===== DRAGGABLE ADMIN ICON ===== */
+    const dragItem = document.getElementById('draggableAdmin');
+    let isDragging = false, currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+
+    dragItem.addEventListener("touchstart", dragStart, {passive: false});
+    document.addEventListener("touchend", dragEnd, {passive: false});
+    document.addEventListener("touchmove", drag, {passive: false});
+    dragItem.addEventListener("mousedown", dragStart, false);
+    document.addEventListener("mouseup", dragEnd, false);
+    document.addEventListener("mousemove", drag, false);
+
+    function dragStart(e) {
+        if (e.target !== dragItem) return;
+        if (e.type === "touchstart") {
+            initialX = e.touches[0].clientX - xOffset;
+            initialY = e.touches[0].clientY - yOffset;
+        } else {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+        }
+        isDragging = true;
+    }
+    function dragEnd(e) {
+        initialX = currentX;
+        initialY = currentY;
+        setTimeout(() => isDragging = false, 0); // small delay to prevent click while dragging
+    }
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        if (e.type === "touchmove") {
+            currentX = e.touches[0].clientX - initialX;
+            currentY = e.touches[0].clientY - initialY;
+        } else {
+            currentX = e.clientX - initialX;
+            currentY = e.clientY - initialY;
+        }
+        xOffset = currentX; yOffset = currentY;
+        // Adjust translation bounds here if necessary
+        dragItem.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+    }
+
+    /* ===== FREELANCING ADMIN DATA MGT ===== */
+    function loadFlAdminData() {
+        const projects = getFlData();
+        const cats = JSON.parse(localStorage.getItem('fl_categories') || JSON.stringify(categories));
+        
+        // Populate category dropdown
+        const select = document.getElementById('new-fl-cat');
+        select.innerHTML = cats.map(c => `<option value="${c.id}">${c.name} ${c.icon}</option>`).join('');
+
+        renderFlProjects(projects);
+        renderFlCategories(cats);
+        renderClientIdeas();
+        renderBotQuestionsList();
+    }
+
+    function renderFlProjects(projects) {
+        const c = document.getElementById('fl-projects-list');
+        c.innerHTML = projects.map((p, i) => `
+            <div style="margin-bottom:10px;padding:12px;background:var(--bg2);border-radius:10px;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                    <span style="flex:1;font-size:.9rem;font-weight:600">${p.title} (${p.cat})</span>
+                    <select onchange="updateFlStatus(${i}, this.value)" style="background:var(--surface);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:4px;font-size:.75rem;cursor:pointer;">
+                        <option value="available" ${p.status==='available'?'selected':''}>🟢 Available</option>
+                        <option value="progress" ${p.status==='progress'?'selected':''}>🟡 In Progress</option>
+                        <option value="completed" ${p.status==='completed'?'selected':''}>✅ Completed</option>
+                    </select>
+                    <button onclick="removeFlProject(${i})" style="background:var(--danger);color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.75rem">✕</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function updateFlStatus(i, newStatus) {
+        const p = getFlData();
+        p[i].status = newStatus;
+        localStorage.setItem('fl_projects', JSON.stringify(p));
+        // Soft refresh without re-rendering the whole dropdown panel to prevent focus loss
+        renderCategories(); 
+        if(activeCategory) filterCategory(activeCategory);
+    }
+
+    function addFlProject() {
+        const p = getFlData();
+        const title = document.getElementById('new-fl-title').value;
+        if(!title) return alert('Project title is required');
+        
+        p.push({
+            cat: document.getElementById('new-fl-cat').value,
+            title,
+            desc: document.getElementById('new-fl-desc').value,
+            status: document.getElementById('new-fl-status').value,
+            budget: document.getElementById('new-fl-budget').value,
+            time: document.getElementById('new-fl-time').value,
+            skills: document.getElementById('new-fl-skills').value.split(',').map(s=>s.trim()).filter(Boolean)
+        });
+        localStorage.setItem('fl_projects', JSON.stringify(p));
+        loadFlAdminData();
+        renderCategories(); // refresh main page UI
+        if(activeCategory) filterCategory(activeCategory); // Refresh active view
+        ['new-fl-title','new-fl-desc','new-fl-budget','new-fl-time','new-fl-skills'].forEach(id=>document.getElementById(id).value='');
+    }
+
+    function removeFlProject(i) {
+        if(!confirm('Delete this project?')) return;
+        const p = getFlData();
+        p.splice(i, 1);
+        localStorage.setItem('fl_projects', JSON.stringify(p));
+        loadFlAdminData();
+        renderCategories();
+        if(activeCategory) filterCategory(activeCategory);
+    }
+
+    function renderFlCategories(cats) {
+        const c = document.getElementById('fl-categories-list');
+        c.innerHTML = cats.map((cat, i) => `
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;padding:8px 12px;background:var(--bg2);border-radius:8px;">
+                <span>${cat.icon}</span>
+                <span style="flex:1;font-size:.85rem;font-weight:600">${cat.name} (${cat.id})</span>
+                <button onclick="removeFlCategory(${i})" style="background:var(--danger);color:#fff;border:none;border-radius:6px;padding:4px 10px;cursor:pointer;font-size:.75rem">✕</button>
+            </div>
+        `).join('');
+    }
+
+    function addFlCategory() {
+        const id = document.getElementById('new-cat-id').value.trim().toLowerCase();
+        const icon = document.getElementById('new-cat-icon').value || '📁';
+        const name = document.getElementById('new-cat-name').value;
+        if(!id || !name) return alert('ID and Name required!');
+        
+        const cats = JSON.parse(localStorage.getItem('fl_categories') || JSON.stringify(categories));
+        // Check duplicate
+        if(cats.find(c => c.id === id)) return alert('Category ID already exists!');
+        
+        cats.push({id, icon, name});
+        localStorage.setItem('fl_categories', JSON.stringify(cats));
+        // Also extend the global categories array that the page builds from
+        categories.length = 0;
+        categories.push(...cats);
+        
+        loadFlAdminData();
+        renderCategories();
+        ['new-cat-id','new-cat-icon','new-cat-name'].forEach(str=>document.getElementById(str).value='');
+    }
+
+    function removeFlCategory(i) {
+        if(!confirm('Delete this category? Associated projects will remain but may be inaccessible until re-categorized.')) return;
+        const cats = JSON.parse(localStorage.getItem('fl_categories') || JSON.stringify(categories));
+        cats.splice(i, 1);
+        localStorage.setItem('fl_categories', JSON.stringify(cats));
+        categories.length = 0;
+        categories.push(...cats);
+        
+        loadFlAdminData();
+        renderCategories();
+        showAll(); // Reset to show all since active cat might be gone
+    }
+
+    function renderClientIdeas() {
+        const subs = JSON.parse(localStorage.getItem('fl_submissions') || '[]');
+        const c = document.getElementById('fl-ideas-list');
+        if (!subs.length) {
+            c.innerHTML = '<div style="color:var(--muted);font-size:.85rem;text-align:center;padding:20px;">No ideas submitted yet.</div>';
+            return;
+        }
+        c.innerHTML = subs.slice().reverse().map(s => {
+            const mailBody = `Hi ${s.name || 'there'},%0A%0AThanks for reaching out with your idea.%0A%0A`;
+            const replyLink = s.email ? `https://mail.google.com/mail/?view=cm&fs=1&to=${s.email}&su=Re: Your Project Idea Submission&body=${mailBody}` : '#';
+            
+            let extraFields = '';
+            Object.keys(s).forEach(k => {
+                if(!['name', 'email', 'date', 'timestamp'].includes(k)) {
+                    // special styling for 'idea' to match the old design
+                    if(k === 'idea') {
+                        extraFields += `<div style="color:var(--text);margin-top:4px;background:var(--surface);padding:8px;border-radius:6px;font-style:italic">"${s[k]}"</div>`;
+                    } else {
+                        extraFields += `<div style="color:var(--muted)"><strong>${k}:</strong> ${s[k]}</div>`;
+                    }
+                }
+            });
+
+            return `
+            <div style="margin-bottom:12px;padding:12px;background:var(--bg2);border-radius:10px;font-size:.85rem;border-left:3px solid var(--primary);display:flex;flex-direction:column;gap:6px;">
+                <div style="font-weight:700;font-size:.9rem">${s.name || 'Anonymous'} <span style="font-weight:400;color:var(--muted);font-size:.75rem">(${new Date(s.date).toLocaleDateString()})</span></div>
+                <div style="color:var(--text)">📧 <strong>Email:</strong> ${s.email || 'N/A'}</div>
+                ${extraFields}
+                ${s.email ? `<a href="${replyLink}" target="_blank" class="btn btn-primary btn-sm" style="align-self:flex-start;margin-top:4px;text-decoration:none;font-size:.75rem;padding:6px 12px">✉️ Reply via Gmail</a>` : ''}
+            </div>
+            `;
+        }).join('');
+    }
+
+    function clearIdeas() {
+        if (!confirm('Clear all client ideas?')) return;
+        localStorage.removeItem('fl_submissions');
+        renderClientIdeas();
+    }
+
+    /* ===== PASSKEY REGISTRATION ===== */
+    async function registerPasskey() {
+        try {
+            const credential = await navigator.credentials.create({
+                publicKey: {
+                    challenge: new Uint8Array(32),
+                    rp: { id: window.location.hostname, name: "Tharuncys Admin" },
+                    user: {
+                        id: new Uint8Array(16),
+                        name: "admin",
+                        displayName: "Admin"
+                    },
+                    pubKeyCredParams: [{type: "public-key", alg: -7}],
+                    authenticatorSelection: { userVerification: "required" },
+                    timeout: 60000
+                }
+            });
+            const rawId = Array.from(new Uint8Array(credential.rawId)).map(b => String.fromCharCode(b)).join('');
+            localStorage.setItem('admin_passkey_id', btoa(rawId));
+            localStorage.setItem('admin_passkey_registered', 'true');
+            alert('Passkey Registered Successfully!');
+        } catch (e) {
+            console.error(e);
+            alert('Failed to register Passkey.');
+        }
+    }
+
+    function clearPasskey() {
+        localStorage.removeItem('admin_passkey_id');
+        localStorage.removeItem('admin_passkey_registered');
+        alert('Local Passkey Removed!');
+    }
+
+    </script>
+</body>
+</html>

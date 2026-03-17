@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learn & Document | THARUNKUMAR M</title>
+    <meta name="description" content="Follow THARUNKUMAR M's learning journey — articles, stories, certifications, and daily discoveries.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth}
+        body{font-family:'Inter',sans-serif;line-height:1.6;overflow-x:hidden;
+            --bg:#0a0a14;--bg2:#10102a;--surface:#161636;--surface2:#1e1e42;
+            --primary:#7c3aed;--primary-glow:rgba(124,58,237,0.35);
+            --secondary:#06d6a0;--accent:#f59e0b;--danger:#ef4444;
+            --text:#e4e4e7;--muted:#a1a1aa;--subtle:#52527a;
+            --border:rgba(124,58,237,0.2);--card-shadow:0 8px 32px rgba(0,0,0,0.4);
+            --glass:rgba(22,22,54,0.7);--glass-border:rgba(124,58,237,0.15);
+            background:var(--bg);color:var(--text);min-height:100vh;
+        }
+        a{color:var(--primary);text-decoration:none;transition:all .3s}
+        a:hover{color:var(--secondary)}
+        h1,h2,h3,h4{font-family:'Poppins',sans-serif;font-weight:700}
+        .container{max-width:800px;margin:0 auto;padding:0 24px}
+        .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:10px;font-size:.9rem;font-weight:600;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;text-decoration:none}
+        .btn-primary{background:var(--primary);color:#fff}
+        .btn-primary:hover{background:#6d28d9;transform:translateY(-2px);box-shadow:0 8px 25px var(--primary-glow);color:#fff}
+        .btn-outline{background:transparent;color:var(--primary);border:2px solid var(--primary)}
+        .btn-outline:hover{background:rgba(124,58,237,0.1);transform:translateY(-2px);color:var(--primary)}
+        .btn-secondary{background:var(--secondary);color:#0a0a14}
+        .btn-secondary:hover{background:#05c896;transform:translateY(-2px);color:#0a0a14}
+        .btn-sm{padding:8px 18px;font-size:.8rem;border-radius:8px}
+        .btn-xs{padding:5px 12px;font-size:.72rem;border-radius:6px}
+        .btn-danger{background:var(--danger);color:#fff}
+        .hl{background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+        /* ===== TOP BAR ===== */
+        .topbar{position:sticky;top:0;z-index:100;padding:16px 0;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--glass-border)}
+        .topbar-inner{display:flex;align-items:center;justify-content:space-between;max-width:800px;margin:0 auto;padding:0 24px}
+        .topbar a.back{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:500}
+        .topbar a.back:hover{color:var(--text)}
+        .topbar h1{font-size:1.2rem}
+        .topbar-links{display:flex;gap:12px;align-items:center}
+        .topbar-links a{font-size:.82rem;font-weight:500;color:var(--muted)}
+        .topbar-links a:hover{color:var(--text)}
+
+        /* ===== HERO ===== */
+        .learn-hero{padding:80px 0 40px;text-align:center;position:relative;overflow:hidden}
+        .learn-hero h2{font-size:clamp(1.8rem,4vw,2.8rem);margin-bottom:12px}
+        .learn-hero p{color:var(--muted);max-width:600px;margin:0 auto 30px;font-size:1rem}
+
+        /* ===== FILTER TABS ===== */
+        .filter-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+        .filter-btn{padding:8px 20px;border-radius:20px;font-size:.8rem;font-weight:600;background:var(--surface);border:1px solid var(--border);color:var(--muted);cursor:pointer;transition:all .3s}
+        .filter-btn:hover,.filter-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);transform:scale(1.05)}
+
+        /* ===== POST FEED ===== */
+        .feed{display:flex;flex-direction:column;gap:24px;padding-bottom:80px}
+        .post-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;transition:all .4s;position:relative;overflow:hidden}
+        .post-card:hover{border-color:var(--primary);box-shadow:var(--card-shadow)}
+        .post-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--primary),var(--secondary))}
+        .post-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+        .post-avatar{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--secondary));display:flex;align-items:center;justify-content:center;font-size:1.1rem;font-weight:700;color:#fff;flex-shrink:0}
+        .post-meta{flex:1}
+        .post-author{font-weight:700;font-size:.9rem}
+        .post-date{font-size:.72rem;color:var(--muted)}
+        .post-badge{display:inline-block;padding:3px 10px;border-radius:8px;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-left:auto}
+        .post-badge.article{background:rgba(124,58,237,0.15);color:var(--primary)}
+        .post-badge.story{background:rgba(245,158,11,0.15);color:var(--accent)}
+        .post-badge.video{background:rgba(239,68,68,0.15);color:var(--danger)}
+        .post-badge.certification{background:rgba(6,214,160,0.15);color:var(--secondary)}
+        .post-badge.daily{background:rgba(161,161,170,0.15);color:var(--muted)}
+        .post-title{font-size:1.15rem;font-weight:700;margin-bottom:8px;font-family:'Poppins',sans-serif}
+        .post-body{color:var(--muted);font-size:.88rem;line-height:1.7;margin-bottom:16px;white-space:pre-line}
+        .post-image{width:100%;border-radius:12px;margin-bottom:16px;max-height:400px;object-fit:cover;border:1px solid var(--border)}
+        .post-link{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:var(--bg2);border-radius:8px;font-size:.78rem;color:var(--primary);transition:all .3s;margin-bottom:16px}
+        .post-link:hover{background:var(--primary);color:#fff}
+        .post-actions{display:flex;gap:12px;align-items:center;padding-top:14px;border-top:1px solid var(--border)}
+        .post-actions button{background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .3s;font-family:'Inter',sans-serif}
+        .post-actions button:hover{color:var(--primary)}
+        .post-actions button.liked{color:var(--danger)}
+
+        /* ===== COMMENT SECTION ===== */
+        .comment-section{margin-top:16px;display:none}
+        .comment-section.open{display:block}
+        .comment-list{margin-bottom:12px}
+        .comment-item{padding:10px 14px;background:var(--bg2);border-radius:10px;margin-bottom:8px;font-size:.82rem}
+        .comment-item .c-author{font-weight:700;font-size:.78rem;color:var(--secondary);margin-bottom:2px}
+        .comment-item .c-text{color:var(--text)}
+        .comment-item .c-date{font-size:.68rem;color:var(--subtle);margin-top:4px}
+        .comment-item.admin-reply{border-left:3px solid var(--primary);background:rgba(124,58,237,0.08)}
+        .comment-item.admin-reply .c-author{color:var(--primary)}
+        .comment-input-row{display:flex;gap:8px}
+        .comment-input-row input{flex:1;padding:8px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.82rem}
+        .comment-input-row input:focus{outline:none;border-color:var(--primary)}
+        .comment-input-row button{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .3s}
+        .comment-input-row button:hover{background:#6d28d9}
+
+        /* ===== ADMIN MODAL ===== */
+        .admin-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;opacity:0;pointer-events:none;transition:all .3s}
+        .admin-overlay.active{opacity:1;pointer-events:auto}
+        .admin-modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);z-index:550;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:40px;min-width:360px;text-align:center;opacity:0;pointer-events:none;transition:all .3s}
+        .admin-modal.active{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+        .admin-modal h3{margin-bottom:20px;font-size:1.2rem}
+        .admin-modal input{width:100%;padding:12px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:.9rem;margin-bottom:12px;font-family:'Inter',sans-serif}
+        .admin-modal input:focus{outline:none;border-color:var(--primary)}
+        .admin-err{color:var(--danger);font-size:.8rem;margin-bottom:8px}
+
+        /* ===== ADMIN SIDEBAR ===== */
+        .admin-sidebar{position:fixed;right:-480px;top:0;height:100vh;width:460px;background:var(--surface);border-left:1px solid var(--border);z-index:600;transition:right .4s;overflow-y:auto;padding:28px}
+        .admin-sidebar.active{right:0}
+        .admin-sidebar h2{font-size:1.2rem;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+        .admin-sidebar .close-btn{margin-left:auto;cursor:pointer;font-size:1.2rem;background:none;border:none;color:var(--muted)}
+        .admin-tab{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;font-size:.82rem;font-weight:600;background:none;border:none;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;font-family:'Inter',sans-serif;transition:.3s}
+        .admin-tab:hover{color:var(--text)}
+        .admin-tab.active{color:var(--primary);border-bottom-color:var(--primary)}
+        .admin-tab-panel{display:none}
+        .admin-tab-panel.active{display:block}
+        .admin-field{margin-bottom:14px}
+        .admin-field label{display:block;font-weight:600;font-size:.78rem;color:var(--muted);margin-bottom:5px}
+        .admin-field input,.admin-field textarea,.admin-field select{width:100%;padding:10px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.85rem}
+        .admin-field textarea{resize:vertical;min-height:100px}
+        .admin-field input:focus,.admin-field textarea:focus,.admin-field select:focus{outline:none;border-color:var(--primary)}
+
+        /* ===== DRAGGABLE ADMIN ICON ===== */
+        .draggable-admin{position:fixed;bottom:100px;right:20px;z-index:800;background:var(--primary);color:#fff;padding:10px 16px;border-radius:30px;cursor:grab;user-select:none;font-size:.82rem;font-weight:600;box-shadow:0 6px 20px var(--primary-glow);display:none;animation:pulseAd 2s infinite}
+        .draggable-admin.show{display:flex;align-items:center;gap:6px}
+        .draggable-admin:active{cursor:grabbing}
+        @keyframes pulseAd { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+
+        /* ===== FOOTER ===== */
+        .footer{padding:40px 0;text-align:center;border-top:1px solid var(--border);color:var(--muted);font-size:.85rem}
+
+        @media(max-width:480px){
+            .admin-sidebar{width:100%}
+            .topbar-links{display:none}
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR -->
+    <div class="topbar">
+        <div class="topbar-inner">
+            <a href="index.html" class="back">← Back to Portfolio</a>
+            <h1>📝 <span class="hl">Learn & Document</span></h1>
+            <div class="topbar-links">
+                <a href="index.html">Portfolio</a>
+                <a href="freelancing.html">Hire Me</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="learn-hero">
+        <div class="container">
+            <h2>Documenting <span class="hl">My Journey</span></h2>
+            <p>Follow along as I share daily learnings, articles, stories, certifications, and all that I discover on the path of tech.</p>
+        </div>
+    </section>
+
+    <!-- FILTER BAR -->
+    <div class="container">
+        <div class="filter-bar" id="filterBar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="article">📄 Articles</button>
+            <button class="filter-btn" data-filter="story">📖 Stories</button>
+            <button class="filter-btn" data-filter="video">🎬 Videos</button>
+            <button class="filter-btn" data-filter="certification">🏆 Certifications</button>
+            <button class="filter-btn" data-filter="daily">📝 Daily</button>
+        </div>
+    </div>
+
+    <!-- FEED -->
+    <div class="container">
+        <div class="feed" id="feed"></div>
+    </div>
+
+    <!-- ADMIN OVERLAY -->
+    <div class="admin-overlay" id="adminOverlay"></div>
+
+    <!-- ADMIN LOGIN MODAL -->
+    <div class="admin-modal" id="adminModal">
+        <h3>🔐 Admin Access</h3>
+        <p style="font-size:0.85rem;margin-bottom:12px;color:var(--muted)">Enter your Admin Password or GitHub PAT</p>
+        <div class="admin-err" id="adminErr" style="margin-bottom:8px"></div>
+        <input type="password" id="adminPwd" placeholder="ghp_..." autofocus>
+        <button class="btn btn-primary btn-sm" onclick="adminLogin()" style="width:100%">Verify Token</button>
+        <button class="btn btn-outline btn-sm" style="width:100%;margin-top:8px" onclick="closeAdminModal()">Cancel</button>
+    </div>
+
+    <!-- ADMIN SIDEBAR -->
+    <div class="admin-sidebar" id="adminSidebar">
+        <h2>📝 Learn Admin <button class="close-btn" onclick="closeAdmin()">✕</button></h2>
+        <div style="margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:12px">
+            <button class="admin-tab active" data-tab="create">Create Post</button>
+            <button class="admin-tab" data-tab="manage">Manage</button>
+            <button class="admin-tab" data-tab="comments">Comments</button>
+            <button class="admin-tab" data-tab="settings">Settings</button>
+        </div>
+
+        <!-- CREATE POST TAB -->
+        <div class="admin-tab-panel active" id="panel-create">
+            <div class="admin-field"><label>Title</label><input id="post-title" placeholder="Post title..."></div>
+            <div class="admin-field">
+                <label>Type</label>
+                <select id="post-type">
+                    <option value="article">📄 Article</option>
+                    <option value="story">📖 Story</option>
+                    <option value="video">🎬 Video</option>
+                    <option value="certification">🏆 Certification</option>
+                    <option value="daily">📝 Daily</option>
+                </select>
+            </div>
+            <div class="admin-field"><label>Content</label><textarea id="post-content" placeholder="Write your content..."></textarea></div>
+            <div class="admin-field">
+                <label>Image (optional)</label>
+                <input type="file" id="post-image" accept="image/*" onchange="previewImage(this)" style="padding:8px">
+                <img id="post-image-preview" style="display:none;width:100%;max-height:200px;object-fit:cover;border-radius:8px;margin-top:8px;border:1px solid var(--border)">
+            </div>
+            <div class="admin-field"><label>Link / URL (optional)</label><input id="post-link" placeholder="https://..."></div>
+            <button class="btn btn-primary btn-sm" onclick="createPost()" style="width:100%">🚀 Publish Post</button>
+        </div>
+
+        <!-- MANAGE POSTS TAB -->
+        <div class="admin-tab-panel" id="panel-manage">
+            <div id="manage-list"></div>
+        </div>
+
+        <!-- COMMENTS TAB -->
+        <div class="admin-tab-panel" id="panel-comments">
+            <div id="admin-comments-list"></div>
+        </div>
+
+        <!-- SETTINGS TAB -->
+        <div class="admin-tab-panel" id="panel-settings">
+            <h4 style="margin-bottom:12px;font-size:1.1rem;color:var(--primary)">🔐 Biometric Passkeys (Local)</h4>
+            <p style="font-size:.75rem;color:var(--muted);margin-bottom:12px">Register a device passkey (Windows Hello, Touch ID) to skip typing your GitHub Token on this specific browser/device.</p>
+            <button class="btn btn-primary btn-sm" onclick="registerPasskey()" style="margin-bottom:16px;width:100%">➕ Register Device Passkey</button>
+            <button class="btn btn-outline btn-sm" onclick="clearPasskey()" style="margin-bottom:16px;border-color:var(--danger);color:var(--danger);width:100%">🗑️ Remove Passkey</button>
+        </div>
+    </div>
+
+    <!-- DRAGGABLE ADMIN ICON -->
+    <div class="draggable-admin" id="draggableAdmin" onclick="if(!isDragging) openAdminSidebar()">⚙️ Admin</div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div style="margin-bottom:12px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap">
+                <a href="index.html">Portfolio</a>
+                <a href="freelancing.html">Freelancing Hub</a>
+            </div>
+            <p>&copy; 2026 THARUNKUMAR M</p>
+        </div>
+    </footer>
+
+<script>
+    /* ===== USER ID TRACKER (anonymous, browser-local) ===== */
+    function getVisitorId() {
+        let id = localStorage.getItem('learn_visitor_id');
+        if (!id) {
+            id = 'visitor_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+            localStorage.setItem('learn_visitor_id', id);
+        }
+        return id;
+    }
+    const VISITOR_ID = getVisitorId();
+    const ADMIN_ID = 'admin_tharun';
+
+    /* ===== DATA HELPERS ===== */
+    function getPosts() { return JSON.parse(localStorage.getItem('learn_posts') || '[]'); }
+    function savePosts(p) { localStorage.setItem('learn_posts', JSON.stringify(p)); }
+    function getComments() { return JSON.parse(localStorage.getItem('learn_comments') || '[]'); }
+    function saveComments(c) { localStorage.setItem('learn_comments', JSON.stringify(c)); }
+    function getLikes() { return JSON.parse(localStorage.getItem('learn_likes') || '{}'); }
+    function saveLikes(l) { localStorage.setItem('learn_likes', JSON.stringify(l)); }
+
+    /* ===== SEED DATA (only if empty) ===== */
+    if (!localStorage.getItem('learn_posts')) {
+        savePosts([
+            { id:'p1', title:'My Cybersecurity Journey Begins', type:'story', content:'Today I decided to formally document everything I learn on my path to becoming a cybersecurity expert.\n\nThis page will be my digital journal — raw, unfiltered, and honest.', link:'', date:new Date().toISOString() },
+            { id:'p2', title:'Completed Google Cybersecurity Certificate', type:'certification', content:'Just earned my Google Cybersecurity Professional Certificate! 🎉\n\nKey Takeaways:\n• SIEM tools & log analysis\n• Linux security fundamentals\n• Python automation for security tasks', link:'https://www.coursera.org/professional-certificates/google-cybersecurity', date:new Date(Date.now() - 86400000).toISOString() },
+            { id:'p3', title:'Understanding Buffer Overflow Attacks', type:'article', content:'A deep dive into how buffer overflow vulnerabilities work, why they\'re dangerous, and how modern systems try to prevent them with DEP and ASLR.', link:'', date:new Date(Date.now() - 172800000).toISOString() }
+        ]);
+    }
+
+    /* ===== RENDER FEED ===== */
+    let currentFilter = 'all';
+
+    function renderFeed() {
+        const posts = getPosts();
+        const comments = getComments();
+        const likes = getLikes();
+        const feed = document.getElementById('feed');
+
+        const filtered = currentFilter === 'all' ? posts : posts.filter(p => p.type === currentFilter);
+
+        if (!filtered.length) {
+            feed.innerHTML = '<div style="text-align:center;color:var(--muted);padding:60px 0;font-size:.9rem">No posts yet. Check back soon! ✨</div>';
+            return;
+        }
+
+        feed.innerHTML = filtered.sort((a,b) => new Date(b.date) - new Date(a.date)).map(post => {
+            const postComments = comments.filter(c => c.postId === post.id);
+            // Show only: this visitor's comments + admin replies
+            const visibleComments = postComments.filter(c => c.userId === VISITOR_ID || c.userId === ADMIN_ID);
+            const isLiked = likes[post.id + '_' + VISITOR_ID];
+            const likeCount = Object.keys(likes).filter(k => k.startsWith(post.id + '_') && likes[k]).length;
+
+            return `
+            <div class="post-card" data-type="${post.type}">
+                <div class="post-header">
+                    <div class="post-avatar">TM</div>
+                    <div class="post-meta">
+                        <div class="post-author">THARUNKUMAR M</div>
+                        <div class="post-date">${new Date(post.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})} • ${new Date(post.date).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</div>
+                    </div>
+                    <span class="post-badge ${post.type}">${typeLabel(post.type)}</span>
+                </div>
+                <div class="post-title">${post.title}</div>
+                <div class="post-body">${escapeHtml(post.content)}</div>
+                ${post.image ? `<img src="${post.image}" alt="${post.title}" class="post-image" onerror="this.style.display='none'">` : ''}
+                ${post.link ? `<a href="${post.link}" target="_blank" class="post-link">🔗 View Resource</a>` : ''}
+                <div class="post-actions">
+                    <button onclick="toggleLike('${post.id}')" class="${isLiked ? 'liked' : ''}">${isLiked ? '❤️' : '🤍'} ${likeCount}</button>
+                    <button onclick="toggleComments('${post.id}')">💬 ${visibleComments.length} Comment${visibleComments.length!==1?'s':''}</button>
+                </div>
+                <div class="comment-section" id="comments-${post.id}">
+                    <div class="comment-list" id="comment-list-${post.id}">
+                        ${visibleComments.map(c => `
+                            <div class="comment-item ${c.userId === ADMIN_ID ? 'admin-reply' : ''}">
+                                <div class="c-author">${c.userId === ADMIN_ID ? '⚡ Tharunkumar (Admin)' : '👤 ' + (c.name || 'Anonymous')}</div>
+                                <div class="c-text">${escapeHtml(c.text)}</div>
+                                <div class="c-date">${new Date(c.date).toLocaleDateString()}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="comment-input-row">
+                        <input type="text" id="ci-${post.id}" placeholder="Write a comment...">
+                        <button onclick="addComment('${post.id}')">Send</button>
+                    </div>
+                </div>
+            </div>
+            `;
+        }).join('');
+    }
+
+    function typeLabel(t) {
+        const m = {article:'📄 Article',story:'📖 Story',video:'🎬 Video',certification:'🏆 Cert',daily:'📝 Daily'};
+        return m[t] || t;
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    /* ===== FILTER ===== */
+    document.getElementById('filterBar').addEventListener('click', e => {
+        if (!e.target.classList.contains('filter-btn')) return;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentFilter = e.target.dataset.filter;
+        renderFeed();
+    });
+
+    /* ===== LIKES ===== */
+    function toggleLike(postId) {
+        const likes = getLikes();
+        const key = postId + '_' + VISITOR_ID;
+        likes[key] = !likes[key];
+        saveLikes(likes);
+        renderFeed();
+    }
+
+    /* ===== COMMENTS ===== */
+    function toggleComments(postId) {
+        const el = document.getElementById('comments-' + postId);
+        el.classList.toggle('open');
+    }
+
+    function addComment(postId) {
+        const input = document.getElementById('ci-' + postId);
+        const text = input.value.trim();
+        if (!text) return;
+
+        // Ask for name the first time
+        let name = localStorage.getItem('learn_visitor_name');
+        if (!name) {
+            name = prompt('What is your name?');
+            if (!name) return;
+            localStorage.setItem('learn_visitor_name', name);
+        }
+
+        const comments = getComments();
+        comments.push({
+            id: 'c_' + Date.now(),
+            postId,
+            userId: VISITOR_ID,
+            name,
+            text,
+            date: new Date().toISOString()
+        });
+        saveComments(comments);
+        input.value = '';
+        renderFeed();
+        // Re-open the comment section
+        setTimeout(() => document.getElementById('comments-' + postId).classList.add('open'), 50);
+    }
+
+    /* ===== ADMIN SYSTEM ===== */
+    const DEFAULT_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
+    let adminActive = false;
+    let flAttempts = 0;
+    let isUnlocked = false;
+
+    async function sha256(str) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Initialize password hash if missing (fallback to same as main portfolio)
+    (async () => {
+        if (!localStorage.getItem('admin_pwd_hash')) {
+            localStorage.setItem('admin_pwd_hash', await sha256('tharun@2025'));
+        }
+    })();
+
+    document.addEventListener('keydown', e => {
+        if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+            e.preventDefault();
+            if (isUnlocked) openAdminSidebar();
+            else openAdminModal();
+        }
+    });
+
+    async function openAdminModal() {
+        if (localStorage.getItem('admin_passkey_registered') === 'true') {
+            try {
+                const assertion = await navigator.credentials.get({
+                    publicKey: {
+                        challenge: new Uint8Array(32),
+                        allowCredentials: [{
+                            id: Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c => c.charCodeAt(0)),
+                            type: 'public-key'
+                        }],
+                        userVerification: 'required'
+                    }
+                });
+                if (assertion) {
+                    isUnlocked = true;
+                    if(document.getElementById('draggableAdmin')) document.getElementById('draggableAdmin').classList.add('show');
+                    openAdminSidebar();
+                    return;
+                }
+            } catch (e) {
+                console.log('Passkey skipped or failed', e);
+            }
+        }
+        
+        document.getElementById('adminOverlay').classList.add('active');
+        document.getElementById('adminModal').classList.add('active');
+        document.getElementById('adminPwd').value = localStorage.getItem('admin_gh_token') || '';
+        document.getElementById('adminErr').textContent = '';
+        setTimeout(() => document.getElementById('adminPwd').focus(), 100);
+    }
+
+    function closeAdminModal() {
+        document.getElementById('adminOverlay').classList.remove('active');
+        document.getElementById('adminModal').classList.remove('active');
+    }
+
+    document.getElementById('adminPwd').addEventListener('keydown', e => {
+        if (e.key === 'Enter') adminLogin();
+    });
+
+    async function adminLogin() {
+        const input = document.getElementById('adminPwd').value.trim();
+        if (!input) return;
+        
+        try {
+            document.getElementById('adminErr').textContent = 'Verifying credentials...';
+            document.getElementById('adminErr').style.color = 'var(--text)';
+            
+            // 1. Check if it's the static password hash
+            const hash = await sha256(input);
+            const storedHash = localStorage.getItem('admin_pwd_hash');
+            if (hash === storedHash || hash === DEFAULT_HASH) {
+                flAttempts = 0;
+                isUnlocked = true;
+                closeAdminModal();
+                if(document.getElementById('draggableAdmin')) document.getElementById('draggableAdmin').classList.add('show');
+                openAdminSidebar();
+                return;
+            }
+
+            // 2. If not the password, check if it's a valid GitHub token
+            const res = await fetch('https://api.github.com/user', {
+                headers: { 'Authorization': `token ${input}` }
+            });
+            const data = await res.json();
+            
+            if (res.ok && data.login === 'Tharuncys') {
+                flAttempts = 0;
+                isUnlocked = true;
+                localStorage.setItem('admin_gh_token', input);
+                closeAdminModal();
+                if(document.getElementById('draggableAdmin')) document.getElementById('draggableAdmin').classList.add('show');
+                openAdminSidebar();
+            } else {
+                throw new Error(data.message || 'Invalid Password or GitHub Token');
+            }
+        } catch (e) {
+            flAttempts++;
+            const left = 3 - flAttempts;
+            document.getElementById('adminErr').style.color = 'var(--danger)';
+            document.getElementById('adminErr').textContent = left > 0 ? `Failed: ${e.message}. ${left} attempts left.` : 'Locked out. Refresh to retry.';
+            if (flAttempts >= 3) document.getElementById('adminPwd').disabled = true;
+        }
+    }
+
+    function openAdminSidebar() {
+        adminActive = true;
+        document.getElementById('adminSidebar').classList.add('active');
+        document.getElementById('adminOverlay').classList.add('active');
+        loadAdminData();
+    }
+
+    function closeAdmin() {
+        adminActive = false;
+        document.getElementById('adminSidebar').classList.remove('active');
+        document.getElementById('adminOverlay').classList.remove('active');
+    }
+
+    document.getElementById('adminOverlay').addEventListener('click', () => {
+        if (adminActive) closeAdmin();
+        else closeAdminModal();
+    });
+
+    // Tab switching
+    document.querySelectorAll('.admin-sidebar .admin-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.admin-sidebar .admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-sidebar .admin-tab-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+        });
+    });
+
+    /* ===== DRAGGABLE ICON ===== */
+    const dragItem = document.getElementById('draggableAdmin');
+    let isDragging = false, currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+
+    dragItem.addEventListener("touchstart", dragStart, {passive: false});
+    document.addEventListener("touchend", dragEnd, {passive: false});
+    document.addEventListener("touchmove", drag, {passive: false});
+    dragItem.addEventListener("mousedown", dragStart, false);
+    document.addEventListener("mouseup", dragEnd, false);
+    document.addEventListener("mousemove", drag, false);
+
+    function dragStart(e) {
+        if (e.target !== dragItem) return;
+        if (e.type === "touchstart") { initialX = e.touches[0].clientX - xOffset; initialY = e.touches[0].clientY - yOffset; }
+        else { initialX = e.clientX - xOffset; initialY = e.clientY - yOffset; }
+        isDragging = true;
+    }
+    function dragEnd() { initialX = currentX; initialY = currentY; setTimeout(() => isDragging = false, 0); }
+    function drag(e) {
+        if (!isDragging) return;
+        e.preventDefault();
+        if (e.type === "touchmove") { currentX = e.touches[0].clientX - initialX; currentY = e.touches[0].clientY - initialY; }
+        else { currentX = e.clientX - initialX; currentY = e.clientY - initialY; }
+        xOffset = currentX; yOffset = currentY;
+        dragItem.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+    }
+
+    /* ===== ADMIN DATA ===== */
+    function loadAdminData() {
+        renderManageList();
+        renderAdminComments();
+    }
+
+    /* ===== IMAGE PREVIEW & BASE64 ===== */
+    let pendingImageData = '';
+
+    function previewImage(input) {
+        const file = input.files[0];
+        if (!file) { pendingImageData = ''; document.getElementById('post-image-preview').style.display = 'none'; return; }
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            pendingImageData = e.target.result;
+            const preview = document.getElementById('post-image-preview');
+            preview.src = pendingImageData;
+            preview.style.display = 'block';
+        };
+        reader.readAsDataURL(file);
+    }
+
+    /* ===== CREATE POST ===== */
+    function createPost() {
+        const title = document.getElementById('post-title').value.trim();
+        const type = document.getElementById('post-type').value;
+        const content = document.getElementById('post-content').value.trim();
+        const image = pendingImageData;
+        const link = document.getElementById('post-link').value.trim();
+        if (!title || !content) { alert('Title and Content are required!'); return; }
+
+        const posts = getPosts();
+        posts.push({
+            id: 'p_' + Date.now(),
+            title, type, content, image, link,
+            date: new Date().toISOString()
+        });
+        try {
+            savePosts(posts);
+        } catch(e) {
+            // localStorage may be full with large images
+            alert('Storage is full! Try using a smaller image or clearing old posts.');
+            posts.pop();
+            return;
+        }
+
+        // Clear form
+        document.getElementById('post-title').value = '';
+        document.getElementById('post-content').value = '';
+        document.getElementById('post-image').value = '';
+        document.getElementById('post-image-preview').style.display = 'none';
+        pendingImageData = '';
+        document.getElementById('post-link').value = '';
+
+        renderFeed();
+        renderManageList();
+        showToast('Post published! 🚀');
+    }
+
+    /* ===== MANAGE POSTS ===== */
+    function renderManageList() {
+        const posts = getPosts();
+        const c = document.getElementById('manage-list');
+        if (!posts.length) { c.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">No posts yet.</div>'; return; }
+        c.innerHTML = posts.sort((a,b) => new Date(b.date) - new Date(a.date)).map((p, i) => `
+            <div style="margin-bottom:10px;padding:12px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;gap:10px">
+                <span style="flex:1;font-size:.82rem;font-weight:600">${typeLabel(p.type)} ${p.title}</span>
+                <button onclick="deletePost('${p.id}')" class="btn btn-danger btn-xs">✕ Delete</button>
+            </div>
+        `).join('');
+    }
+
+    function deletePost(id) {
+        if (!confirm('Delete this post?')) return;
+        const posts = getPosts().filter(p => p.id !== id);
+        savePosts(posts);
+        // Also remove comments for this post
+        const comments = getComments().filter(c => c.postId !== id);
+        saveComments(comments);
+        renderFeed();
+        renderManageList();
+        renderAdminComments();
+        showToast('Post deleted.');
+    }
+
+    /* ===== ADMIN COMMENTS (inbox + reply) ===== */
+    function renderAdminComments() {
+        const comments = getComments();
+        const posts = getPosts();
+        const c = document.getElementById('admin-comments-list');
+
+        // Only show visitor comments (not admin's own replies)
+        const visitorComments = comments.filter(cm => cm.userId !== ADMIN_ID);
+
+        if (!visitorComments.length) {
+            c.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">No comments yet.</div>';
+            return;
+        }
+
+        c.innerHTML = visitorComments.sort((a,b) => new Date(b.date) - new Date(a.date)).map(cm => {
+            const post = posts.find(p => p.id === cm.postId);
+            // Find admin replies to this comment
+            const replies = comments.filter(r => r.userId === ADMIN_ID && r.replyTo === cm.id);
+            return `
+            <div style="margin-bottom:14px;padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--secondary)">
+                <div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">On: "${post ? post.title : 'Deleted Post'}"</div>
+                <div style="font-weight:700;font-size:.82rem;color:var(--secondary);margin-bottom:2px">👤 ${cm.name || 'Anonymous'}</div>
+                <div style="font-size:.82rem;color:var(--text);margin-bottom:6px">${escapeHtml(cm.text)}</div>
+                <div style="font-size:.68rem;color:var(--subtle);margin-bottom:8px">${new Date(cm.date).toLocaleString()}</div>
+                ${replies.length ? replies.map(r => `
+                    <div style="padding:8px 12px;background:rgba(124,58,237,0.08);border-radius:8px;margin-bottom:6px;font-size:.8rem;border-left:2px solid var(--primary)">
+                        <span style="font-weight:700;color:var(--primary)">⚡ Your Reply:</span> ${escapeHtml(r.text)}
+                    </div>
+                `).join('') : ''}
+                <div style="display:flex;gap:6px">
+                    <input type="text" id="reply-${cm.id}" placeholder="Type a reply..." style="flex:1;padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:.78rem">
+                    <button onclick="adminReply('${cm.id}','${cm.postId}')" class="btn btn-primary btn-xs">Reply</button>
+                </div>
+            </div>
+            `;
+        }).join('');
+    }
+
+    function adminReply(commentId, postId) {
+        const input = document.getElementById('reply-' + commentId);
+        const text = input.value.trim();
+        if (!text) return;
+
+        const comments = getComments();
+        comments.push({
+            id: 'c_' + Date.now(),
+            postId,
+            userId: ADMIN_ID,
+            name: 'Tharunkumar (Admin)',
+            text,
+            date: new Date().toISOString(),
+            replyTo: commentId
+        });
+        saveComments(comments);
+        renderAdminComments();
+        renderFeed();
+        showToast('Reply sent! ✅');
+    }
+
+    /* ===== TOAST ===== */
+    function showToast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        Object.assign(t.style, {
+            position:'fixed',bottom:'30px',left:'50%',transform:'translateX(-50%)',
+            background:'var(--primary)',color:'#fff',padding:'12px 28px',borderRadius:'10px',
+            fontSize:'.85rem',fontWeight:'600',zIndex:'9999',boxShadow:'0 8px 30px var(--primary-glow)',
+            animation:'fadeInUp .4s'
+        });
+        document.body.appendChild(t);
+        setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity .3s'; setTimeout(() => t.remove(), 300); }, 2500);
+    }
+
+    /* ===== PASSKEY REGISTRATION ===== */
+    async function registerPasskey() {
+        try {
+            const credential = await navigator.credentials.create({
+                publicKey: {
+                    challenge: new Uint8Array(32),
+                    rp: { id: window.location.hostname, name: "Tharuncys Admin" },
+                    user: {
+                        id: new Uint8Array(16),
+                        name: "admin",
+                        displayName: "Admin"
+                    },
+                    pubKeyCredParams: [{type: "public-key", alg: -7}],
+                    authenticatorSelection: { userVerification: "required" },
+                    timeout: 60000
+                }
+            });
+            const rawId = Array.from(new Uint8Array(credential.rawId)).map(b => String.fromCharCode(b)).join('');
+            localStorage.setItem('admin_passkey_id', btoa(rawId));
+            localStorage.setItem('admin_passkey_registered', 'true');
+            showToast('Passkey Registered Successfully!');
+        } catch (e) {
+            console.error(e);
+            showToast('Failed to register Passkey.');
+        }
+    }
+
+    function clearPasskey() {
+        localStorage.removeItem('admin_passkey_id');
+        localStorage.removeItem('admin_passkey_registered');
+        showToast('Local Passkey Removed!');
+    }
+
+    /* ===== INIT ===== */
+    renderFeed();
+</script>
+</body>
+</html>
