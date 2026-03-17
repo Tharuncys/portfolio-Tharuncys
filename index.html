@@ -2070,7 +2070,28 @@
     });
 
     /* ===== DATA MANAGEMENT ===== */
+    const FIREBASE_URL = 'https://portfolio-tharuncys-default-rtdb.firebaseio.com';
+    let cachedData = null;
+
+    async function initFirebase() {
+        try {
+            const res = await fetch(`${FIREBASE_URL}/admin_data.json`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data) {
+                    cachedData = data;
+                    localStorage.setItem('portfolio_data', JSON.stringify(data));
+                    applyData(data);
+                    return;
+                }
+            }
+        } catch (e) {
+            console.error('Firebase load error', e);
+        }
+    }
+
     function getData() {
+        if (cachedData) return cachedData;
         return JSON.parse(localStorage.getItem('portfolio_data') || 'null');
     }
 
@@ -2121,8 +2142,15 @@
     }
 
     function saveData(data) {
+        cachedData = data;
         localStorage.setItem('portfolio_data', JSON.stringify(data));
         applyData(data);
+        
+        fetch(`${FIREBASE_URL}/admin_data.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        }).catch(e => console.error('Firebase save error', e));
     }
 
     function loadAdminData() {
@@ -2691,6 +2719,7 @@
     /* ===== INIT ===== */
     const saved = getData();
     applyData(saved || getDefaults());
+    initFirebase();
 
     /* ===== TOAST ===== */
     function showToast(msg) {

@@ -317,6 +317,47 @@
         { cat:'iot', title:'Smart Home Automation', desc:'Custom smart home solutions — sensor networks, automated controls, mobile monitoring, and voice assistant integration.', status:'available', budget:'$300–$800', time:'2–4 weeks', skills:['Arduino','Raspberry Pi','MQTT','Node.js'] },
     ];
 
+    /* ===== FIREBASE SYNC ===== */
+    const FIREBASE_URL = 'https://portfolio-tharuncys-default-rtdb.firebaseio.com';
+    const originalSetItem = localStorage.setItem.bind(localStorage);
+    
+    localStorage.setItem = function(key, val) {
+        originalSetItem(key, val);
+        if (key === 'fl_projects') fetch(`${FIREBASE_URL}/freelancing/projects.json`, { method:'PUT', body:val }).catch(e=>1);
+        if (key === 'fl_bot_questions') fetch(`${FIREBASE_URL}/freelancing/botQs.json`, { method:'PUT', body:val }).catch(e=>1);
+        if (key === 'fl_categories') fetch(`${FIREBASE_URL}/freelancing/categories.json`, { method:'PUT', body:val }).catch(e=>1);
+        if (key === 'fl_submissions') fetch(`${FIREBASE_URL}/client_submissions.json`, { method:'PUT', body:val }).catch(e=>1);
+    };
+
+    async function initFirebase() {
+        try {
+            const res = await fetch(`${FIREBASE_URL}/freelancing.json`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data) {
+                    if (data.projects) originalSetItem('fl_projects', JSON.stringify(data.projects));
+                    if (data.botQs) originalSetItem('fl_bot_questions', JSON.stringify(data.botQs));
+                    if (data.categories) {
+                        originalSetItem('fl_categories', JSON.stringify(data.categories));
+                        categories.length = 0;
+                        categories.push(...data.categories);
+                    }
+                }
+            }
+            const subRes = await fetch(`${FIREBASE_URL}/client_submissions.json`);
+            if (subRes.ok) {
+                const subData = await subRes.json();
+                if (subData) originalSetItem('fl_submissions', JSON.stringify(subData));
+            }
+        } catch (e) { console.error('Firebase load error', e); }
+        
+        renderCategories();
+        if(activeCategory) filterCategory(activeCategory);
+        else if(document.getElementById('listingSection').classList.contains('active')) showAll();
+    }
+    
+    initFirebase();
+
     function getFlData() {
         return JSON.parse(localStorage.getItem('fl_projects') || 'null') || defaultProjects;
     }

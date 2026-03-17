@@ -268,7 +268,34 @@
     const VISITOR_ID = getVisitorId();
     const ADMIN_ID = 'admin_tharun';
 
-    /* ===== DATA HELPERS ===== */
+    /* ===== DATA HELPERS & FIREBASE ===== */
+    const FIREBASE_URL = 'https://portfolio-tharuncys-default-rtdb.firebaseio.com';
+    const originalSetItem = localStorage.setItem.bind(localStorage);
+
+    localStorage.setItem = function(key, val) {
+        originalSetItem(key, val);
+        if (key === 'learn_posts') fetch(`${FIREBASE_URL}/learn/posts.json`, { method:'PUT', body:val }).catch(e=>1);
+        if (key === 'learn_comments') fetch(`${FIREBASE_URL}/learn/comments.json`, { method:'PUT', body:val }).catch(e=>1);
+        if (key === 'learn_likes') fetch(`${FIREBASE_URL}/learn/likes.json`, { method:'PUT', body:val }).catch(e=>1);
+    };
+
+    async function initFirebase() {
+        try {
+            const res = await fetch(`${FIREBASE_URL}/learn.json`);
+            if (res.ok) {
+                const data = await res.json();
+                if (data) {
+                    if (data.posts) originalSetItem('learn_posts', JSON.stringify(data.posts));
+                    if (data.comments) originalSetItem('learn_comments', JSON.stringify(data.comments));
+                    if (data.likes) originalSetItem('learn_likes', JSON.stringify(data.likes));
+                }
+            }
+        } catch (e) { console.error('Firebase load error', e); }
+        renderFeed();
+    }
+    
+    initFirebase();
+
     function getPosts() { return JSON.parse(localStorage.getItem('learn_posts') || '[]'); }
     function savePosts(p) { localStorage.setItem('learn_posts', JSON.stringify(p)); }
     function getComments() { return JSON.parse(localStorage.getItem('learn_comments') || '[]'); }
