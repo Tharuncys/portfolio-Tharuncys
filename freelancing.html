@@ -525,13 +525,14 @@
             content += `<div style="margin-bottom:8px"><strong>Email:</strong> <input type="email" id="edit-email" value="${escapeHtml(chatData.email)}" class="edit-input"></div>`;
             const qs = getBotQuestions().filter(q => q.key);
             qs.forEach(q => {
+                const safeKey = q.key.replace(/[^a-zA-Z0-9_-]/g, '_');
                 if (q.key === 'idea') {
-                    content += `<div style="margin-bottom:8px"><strong>${escapeHtml(q.key)}:</strong><br><textarea id="edit-${escapeHtml(q.key)}" class="edit-input" rows="3">${escapeHtml(chatData[q.key] || '')}</textarea></div>`;
+                    content += `<div style="margin-bottom:8px"><strong>${escapeHtml(q.key)}:</strong><br><textarea id="edit-${safeKey}" class="edit-input" rows="3">${escapeHtml(chatData[q.key] || '')}</textarea></div>`;
                 } else {
-                    content += `<div style="margin-bottom:8px"><strong>${escapeHtml(q.key)}:</strong> <input type="text" id="edit-${escapeHtml(q.key)}" value="${escapeHtml(chatData[q.key] || '')}" class="edit-input"></div>`;
+                    content += `<div style="margin-bottom:8px"><strong>${escapeHtml(q.key)}:</strong> <input type="text" id="edit-${safeKey}" value="${escapeHtml(chatData[q.key] || '')}" class="edit-input"></div>`;
                 }
             });
-            content += `<button onclick="saveEdits('${escapeHtml(summaryId)}')" class="btn btn-primary btn-sm" style="margin-top:8px">💾 Save &amp; Update</button>
+            content += `<button onclick="saveEdits('${summaryId}')" class="btn btn-primary btn-sm" style="margin-top:8px">💾 Save &amp; Update</button>
                         <button onclick="renderFinalSummary(false)" class="btn btn-outline btn-sm" style="margin-top:8px">Cancel</button>`;
         } else {
             content += `Thanks <strong>${escapeHtml(chatData.name)}</strong>! Here's your submission summary:<br><br>`;
@@ -593,7 +594,8 @@
         
         const qs = getBotQuestions().filter(q => q.key);
         qs.forEach(q => {
-            const el = document.getElementById('edit-' + q.key);
+            const safeKey = q.key.replace(/[^a-zA-Z0-9_-]/g, '_');
+            const el = document.getElementById('edit-' + safeKey);
             if(el) chatData[q.key] = el.value;
         });
         
