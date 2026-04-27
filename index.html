@@ -1699,7 +1699,7 @@
                             <div class="proj-tech"><span>Embedded
                                     C</span><span>Arduino</span><span>IoT</span><span>Security</span></div>
                             <div class="proj-links">
-                                <a href="https://github.com/Tharuncys/hardwereIot-codes" target="_blank"
+                                <a href="https://github.com/Tharuncys/hardwereIot-codes" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-outline btn-sm">GitHub</a>
                             </div>
                         </div>
@@ -1715,7 +1715,7 @@
                                 automated enumeration and reporting.</p>
                             <div class="proj-tech"><span>Python</span><span>Nmap</span><span>Kali Linux</span></div>
                             <div class="proj-links">
-                                <a href="https://github.com/Tharuncys" target="_blank"
+                                <a href="https://github.com/Tharuncys" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-outline btn-sm">GitHub</a>
                             </div>
                         </div>
@@ -1733,7 +1733,7 @@
                             <div class="proj-tech"><span>Python</span><span>Wireshark</span><span>Raspberry Pi</span>
                             </div>
                             <div class="proj-links">
-                                <a href="https://github.com/Tharuncys" target="_blank"
+                                <a href="https://github.com/Tharuncys" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-outline btn-sm">GitHub</a>
                             </div>
                         </div>
@@ -1758,18 +1758,18 @@
                         <a href="mailto:tharuncys@gmail.com" class="contact-btn email">
                             <span class="c-ico">✉️</span> Email Me
                         </a>
-                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" class="contact-btn linkedin">
+                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" rel="noopener noreferrer" class="contact-btn linkedin">
                             <span class="c-ico">💼</span> LinkedIn
                         </a>
-                        <a href="https://wa.me/" target="_blank" class="contact-btn whatsapp">
+                        <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp">
                             <span class="c-ico">💬</span> WhatsApp
                         </a>
                     </div>
                     <div class="social-row">
-                        <a href="https://github.com/Tharuncys" target="_blank" class="social-link" title="GitHub">GH</a>
-                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" class="social-link"
+                        <a href="https://github.com/Tharuncys" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub">GH</a>
+                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" rel="noopener noreferrer" class="social-link"
                             title="LinkedIn">in</a>
-                        <a href="https://www.instagram.com/_tharun_m_0/" target="_blank" class="social-link"
+                        <a href="https://www.instagram.com/_tharun_m_0/" target="_blank" rel="noopener noreferrer" class="social-link"
                             title="Instagram">IG</a>
                     </div>
                 </div>
@@ -1931,7 +1931,6 @@
     });
 
     /* ===== ADMIN SYSTEM ===== */
-    const DEFAULT_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
     let adminActive = false;
     let attempts = 0;
     let isUnlocked = false;
@@ -1941,12 +1940,19 @@
         return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Initialize password hash if missing
-    (async () => {
-        if (!localStorage.getItem('admin_pwd_hash')) {
-            localStorage.setItem('admin_pwd_hash', await sha256('tharun@2025'));
-        }
-    })();
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = String(str ?? '');
+        return div.innerHTML;
+    }
+
+    function sanitizeUrl(url) {
+        try {
+            const u = new URL(url);
+            if (u.protocol === 'http:' || u.protocol === 'https:' || u.protocol === 'mailto:') return url;
+        } catch (e) { /* invalid URL */ }
+        return '#';
+    }
 
     document.addEventListener('keydown', e => {
         if (e.ctrlKey && e.shiftKey && e.key === 'A') {
@@ -1962,7 +1968,7 @@
             try {
                 const assertion = await navigator.credentials.get({
                     publicKey: {
-                        challenge: new Uint8Array(32),
+                        challenge: crypto.getRandomValues(new Uint8Array(32)),
                         allowCredentials: [{
                             id: Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c => c.charCodeAt(0)),
                             type: 'public-key'
@@ -2009,7 +2015,7 @@
             // 1. Check if it's the static password hash
             const hash = await sha256(input);
             const storedHash = localStorage.getItem('admin_pwd_hash');
-            if (hash === storedHash || hash === DEFAULT_HASH) {
+            if (storedHash && hash === storedHash) {
                 attempts = 0;
                 isUnlocked = true;
                 closeAdminModal();
@@ -2518,10 +2524,10 @@
         }
         c.innerHTML = subs.slice().reverse().map(s => `
             <div style="margin-bottom:12px;padding:12px;background:var(--bg2);border-radius:10px;font-size:.85rem;border-left:3px solid var(--primary);">
-                <div style="font-weight:700;margin-bottom:6px">${s.name || 'Anonymous'} <span style="font-weight:400;color:var(--muted);font-size:.75rem">(${new Date(s.date).toLocaleDateString()})</span></div>
-                <div style="color:var(--muted);margin-bottom:4px"><strong>Category:</strong> ${s.category || 'N/A'}</div>
-                <div style="color:var(--muted);margin-bottom:4px"><strong>College/Dept:</strong> ${s.college || 'N/A'} (${s.dept || 'N/A'})</div>
-                <div style="color:var(--text);margin-top:8px;background:var(--surface);padding:8px;border-radius:6px;">"${s.idea || ''}"</div>
+                <div style="font-weight:700;margin-bottom:6px">${escapeHtml(s.name || 'Anonymous')} <span style="font-weight:400;color:var(--muted);font-size:.75rem">(${new Date(s.date).toLocaleDateString()})</span></div>
+                <div style="color:var(--muted);margin-bottom:4px"><strong>Category:</strong> ${escapeHtml(s.category || 'N/A')}</div>
+                <div style="color:var(--muted);margin-bottom:4px"><strong>College/Dept:</strong> ${escapeHtml(s.college || 'N/A')} (${escapeHtml(s.dept || 'N/A')})</div>
+                <div style="color:var(--text);margin-top:8px;background:var(--surface);padding:8px;border-radius:6px;">"${escapeHtml(s.idea || '')}"</div>
             </div>
         `).join('');
     }
@@ -2537,10 +2543,10 @@
         try {
             const credential = await navigator.credentials.create({
                 publicKey: {
-                    challenge: new Uint8Array(32),
+                    challenge: crypto.getRandomValues(new Uint8Array(32)),
                     rp: { id: window.location.hostname, name: "Tharuncys Admin" },
                     user: {
-                        id: new Uint8Array(16),
+                        id: crypto.getRandomValues(new Uint8Array(16)),
                         name: "admin",
                         displayName: "Admin"
                     },
@@ -2634,7 +2640,7 @@
         // About Chips
         const chipsContainer = document.querySelector('.about-chips');
         if (chipsContainer && d.personal.chips) {
-            chipsContainer.innerHTML = d.personal.chips.map(c => `<span class="chip">${c}</span>`).join('');
+            chipsContainer.innerHTML = d.personal.chips.map(c => `<span class="chip">${escapeHtml(c)}</span>`).join('');
         }
 
         // Experience & Education
@@ -2645,12 +2651,12 @@
             let cardsHTML = '';
             
             expList.forEach(e => {
-                const lis = (e.points || '').split('\n').filter(Boolean).map(pt => `<li>${pt}</li>`).join('');
+                const lis = (e.points || '').split('\n').filter(Boolean).map(pt => `<li>${escapeHtml(pt)}</li>`).join('');
                 cardsHTML += `
                     <div class="card">
                         <h3>💼 Experience</h3>
-                        <div class="card-sub">${e.role}</div>
-                        <div class="card-date">${e.place}</div>
+                        <div class="card-sub">${escapeHtml(e.role)}</div>
+                        <div class="card-date">${escapeHtml(e.place)}</div>
                         ${lis ? `<ul>${lis}</ul>` : ''}
                     </div>
                 `;
@@ -2660,9 +2666,9 @@
                 cardsHTML += `
                     <div class="card">
                         <h3>🎓 Education</h3>
-                        <div class="card-sub">${e.degree}</div>
-                        <div class="card-date">${e.place}</div>
-                        <p>${e.desc}</p>
+                        <div class="card-sub">${escapeHtml(e.degree)}</div>
+                        <div class="card-date">${escapeHtml(e.place)}</div>
+                        <p>${escapeHtml(e.desc)}</p>
                     </div>
                 `;
             });
@@ -2689,9 +2695,9 @@
         if (sg) {
             sg.innerHTML = d.skills.map(s => `
                 <div class="skill-pill reveal-s">
-                    <div class="s-icon">${s.icon}</div>
-                    <div class="s-name">${s.name}</div>
-                    <div class="s-bar"><div class="s-fill" style="width:${s.level}%"></div></div>
+                    <div class="s-icon">${escapeHtml(s.icon)}</div>
+                    <div class="s-name">${escapeHtml(s.name)}</div>
+                    <div class="s-bar"><div class="s-fill" style="width:${encodeURIComponent(s.level)}%"></div></div>
                 </div>
             `).join('');
         }
@@ -2702,14 +2708,14 @@
             pg.innerHTML = d.projects.map(p => `
                 <div class="proj-card reveal-s">
                     <div class="proj-img" style="background:linear-gradient(135deg,var(--surface2),var(--bg2));display:flex;align-items:center;justify-content:center;">
-                        <span style="font-size:4rem;">${p.icon}</span>
+                        <span style="font-size:4rem;">${escapeHtml(p.icon)}</span>
                         ${p.featured ? '<span class="proj-badge">★ Featured</span>' : ''}
                     </div>
                     <div class="proj-body">
-                        <h3>${p.title}</h3>
-                        <p>${p.desc}</p>
-                        <div class="proj-tech">${p.tech.map(t => `<span>${t}</span>`).join('')}</div>
-                        <div class="proj-links"><a href="${p.url}" target="_blank" class="btn btn-outline btn-sm">GitHub</a></div>
+                        <h3>${escapeHtml(p.title)}</h3>
+                        <p>${escapeHtml(p.desc)}</p>
+                        <div class="proj-tech">${p.tech.map(t => `<span>${escapeHtml(t)}</span>`).join('')}</div>
+                        <div class="proj-links"><a href="${sanitizeUrl(p.url)}" target="_blank" rel="noopener noreferrer" class="btn btn-outline btn-sm">GitHub</a></div>
                     </div>
                 </div>
             `).join('');

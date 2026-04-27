@@ -406,14 +406,14 @@
         const statusMap = {available:'🟢 Available', progress:'🟡 In Progress', completed:'✅ Completed'};
         grid.innerHTML = projects.map(p => `
             <div class="fl-card">
-                <span class="fl-status ${p.status}">${statusMap[p.status]||p.status}</span>
-                <h3>${p.title}</h3>
-                <p>${p.desc}</p>
+                <span class="fl-status ${escapeHtml(p.status)}">${escapeHtml(statusMap[p.status]||p.status)}</span>
+                <h3>${escapeHtml(p.title)}</h3>
+                <p>${escapeHtml(p.desc)}</p>
                 <div class="fl-meta">
-                    <span>💰 <strong>${p.budget}</strong></span>
-                    <span>⏱️ <strong>${p.time}</strong></span>
+                    <span>💰 <strong>${escapeHtml(p.budget)}</strong></span>
+                    <span>⏱️ <strong>${escapeHtml(p.time)}</strong></span>
                 </div>
-                <div class="fl-skills">${p.skills.map(s=>`<span>${s}</span>`).join('')}</div>
+                <div class="fl-skills">${p.skills.map(s=>`<span>${escapeHtml(s)}</span>`).join('')}</div>
                 <a href="index.html#contact" class="btn btn-secondary btn-sm">${p.status==='progress'?'Currently Booked':'Contact for Details'}</a>
             </div>
         `).join('');
@@ -459,7 +459,14 @@
     function addMsg(text, isUser) {
         const div = document.createElement('div');
         div.className = 'chat-msg ' + (isUser ? 'user' : 'bot');
-        div.innerHTML = `<div class="chat-bubble"><span class="cli-prefix">[${isUser?'User':'TK-Bot'}]$</span>${text}</div>`;
+        const bubble = document.createElement('div');
+        bubble.className = 'chat-bubble';
+        const prefix = document.createElement('span');
+        prefix.className = 'cli-prefix';
+        prefix.textContent = '[' + (isUser ? 'User' : 'TK-Bot') + ']$';
+        bubble.appendChild(prefix);
+        bubble.appendChild(document.createTextNode(text));
+        div.appendChild(bubble);
         chatMsgs.appendChild(div);
         chatMsgs.scrollTop = chatMsgs.scrollHeight;
     }
@@ -514,24 +521,24 @@
         
         let content = '';
         if (isEditMode) {
-            content += `<div style="margin-bottom:8px"><strong>Name:</strong> <input type="text" id="edit-name" value="${chatData.name}" class="edit-input"></div>`;
-            content += `<div style="margin-bottom:8px"><strong>Email:</strong> <input type="email" id="edit-email" value="${chatData.email}" class="edit-input"></div>`;
+            content += `<div style="margin-bottom:8px"><strong>Name:</strong> <input type="text" id="edit-name" value="${escapeHtml(chatData.name)}" class="edit-input"></div>`;
+            content += `<div style="margin-bottom:8px"><strong>Email:</strong> <input type="email" id="edit-email" value="${escapeHtml(chatData.email)}" class="edit-input"></div>`;
             const qs = getBotQuestions().filter(q => q.key);
             qs.forEach(q => {
                 if (q.key === 'idea') {
-                    content += `<div style="margin-bottom:8px"><strong>${q.key}:</strong><br><textarea id="edit-${q.key}" class="edit-input" rows="3">${chatData[q.key] || ''}</textarea></div>`;
+                    content += `<div style="margin-bottom:8px"><strong>${escapeHtml(q.key)}:</strong><br><textarea id="edit-${escapeHtml(q.key)}" class="edit-input" rows="3">${escapeHtml(chatData[q.key] || '')}</textarea></div>`;
                 } else {
-                    content += `<div style="margin-bottom:8px"><strong>${q.key}:</strong> <input type="text" id="edit-${q.key}" value="${chatData[q.key] || ''}" class="edit-input"></div>`;
+                    content += `<div style="margin-bottom:8px"><strong>${escapeHtml(q.key)}:</strong> <input type="text" id="edit-${escapeHtml(q.key)}" value="${escapeHtml(chatData[q.key] || '')}" class="edit-input"></div>`;
                 }
             });
-            content += `<button onclick="saveEdits('${summaryId}')" class="btn btn-primary btn-sm" style="margin-top:8px">💾 Save & Update</button>
+            content += `<button onclick="saveEdits('${escapeHtml(summaryId)}')" class="btn btn-primary btn-sm" style="margin-top:8px">💾 Save &amp; Update</button>
                         <button onclick="renderFinalSummary(false)" class="btn btn-outline btn-sm" style="margin-top:8px">Cancel</button>`;
         } else {
-            content += `Thanks <strong>${chatData.name}</strong>! Here's your submission summary:<br><br>`;
-            content += `📧 <strong>Email:</strong> ${chatData.email}<br>`;
+            content += `Thanks <strong>${escapeHtml(chatData.name)}</strong>! Here's your submission summary:<br><br>`;
+            content += `📧 <strong>Email:</strong> ${escapeHtml(chatData.email)}<br>`;
             const qs = getBotQuestions().filter(q => q.key);
             qs.forEach(q => {
-                content += `🔹 <strong>${q.key}:</strong> ${chatData[q.key] || 'N/A'}<br>`;
+                content += `🔹 <strong>${escapeHtml(q.key)}:</strong> ${escapeHtml(chatData[q.key] || 'N/A')}<br>`;
             });
             content += `<br>I'll review this and get back to you! You can also reach me at <a href="mailto:tharuncys@gmail.com">tharuncys@gmail.com</a> or <a href="https://wa.me/">WhatsApp</a>.`;
         }
@@ -569,7 +576,7 @@
                 <div class="chat-avatar">🤖</div>
                 <div class="chat-bubble" style="background:transparent;padding:0">
                     <div style="display:flex;gap:8px;flex-wrap:wrap">
-                        <a href="${gmailLink}" target="_blank" class="btn btn-primary btn-sm">📧 Click here to send via Gmail</a>
+                        <a href="${sanitizeUrl(gmailLink)}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">📧 Click here to send via Gmail</a>
                         <button onclick="renderFinalSummary(true)" class="btn btn-outline btn-sm">✏️ Edit Response</button>
                     </div>
                 </div>
@@ -662,7 +669,6 @@
     }
 
     /* ===== FREELANCING ADMIN SYSTEM ===== */
-    const DEFAULT_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
     let adminActive = false;
     let flAttempts = 0;
     let isUnlocked = false;
@@ -672,12 +678,19 @@
         return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Initialize password hash if missing (fallback to same as main portfolio)
-    (async () => {
-        if (!localStorage.getItem('admin_pwd_hash')) {
-            localStorage.setItem('admin_pwd_hash', await sha256('tharun@2025'));
-        }
-    })();
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = String(str ?? '');
+        return div.innerHTML;
+    }
+
+    function sanitizeUrl(url) {
+        try {
+            const u = new URL(url);
+            if (u.protocol === 'http:' || u.protocol === 'https:' || u.protocol === 'mailto:') return url;
+        } catch (e) { /* invalid URL */ }
+        return '#';
+    }
 
     document.addEventListener('keydown', e => {
         if (e.ctrlKey && e.shiftKey && e.key === 'A') {
@@ -692,7 +705,7 @@
             try {
                 const assertion = await navigator.credentials.get({
                     publicKey: {
-                        challenge: new Uint8Array(32),
+                        challenge: crypto.getRandomValues(new Uint8Array(32)),
                         allowCredentials: [{
                             id: Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c => c.charCodeAt(0)),
                             type: 'public-key'
@@ -736,7 +749,7 @@
             // 1. Check if it's the static password hash
             const hash = await sha256(input);
             const storedHash = localStorage.getItem('admin_pwd_hash');
-            if (hash === storedHash || hash === DEFAULT_HASH) {
+            if (storedHash && hash === storedHash) {
                 flAttempts = 0;
                 isUnlocked = true;
                 closeAdminModal();
@@ -966,26 +979,25 @@
         }
         c.innerHTML = subs.slice().reverse().map(s => {
             const mailBody = `Hi ${s.name || 'there'},%0A%0AThanks for reaching out with your idea.%0A%0A`;
-            const replyLink = s.email ? `https://mail.google.com/mail/?view=cm&fs=1&to=${s.email}&su=Re: Your Project Idea Submission&body=${mailBody}` : '#';
+            const replyLink = s.email ? sanitizeUrl(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(s.email)}&su=Re: Your Project Idea Submission&body=${mailBody}`) : '#';
             
             let extraFields = '';
             Object.keys(s).forEach(k => {
                 if(!['name', 'email', 'date', 'timestamp'].includes(k)) {
-                    // special styling for 'idea' to match the old design
                     if(k === 'idea') {
-                        extraFields += `<div style="color:var(--text);margin-top:4px;background:var(--surface);padding:8px;border-radius:6px;font-style:italic">"${s[k]}"</div>`;
+                        extraFields += `<div style="color:var(--text);margin-top:4px;background:var(--surface);padding:8px;border-radius:6px;font-style:italic">"${escapeHtml(s[k])}"</div>`;
                     } else {
-                        extraFields += `<div style="color:var(--muted)"><strong>${k}:</strong> ${s[k]}</div>`;
+                        extraFields += `<div style="color:var(--muted)"><strong>${escapeHtml(k)}:</strong> ${escapeHtml(s[k])}</div>`;
                     }
                 }
             });
 
             return `
             <div style="margin-bottom:12px;padding:12px;background:var(--bg2);border-radius:10px;font-size:.85rem;border-left:3px solid var(--primary);display:flex;flex-direction:column;gap:6px;">
-                <div style="font-weight:700;font-size:.9rem">${s.name || 'Anonymous'} <span style="font-weight:400;color:var(--muted);font-size:.75rem">(${new Date(s.date).toLocaleDateString()})</span></div>
-                <div style="color:var(--text)">📧 <strong>Email:</strong> ${s.email || 'N/A'}</div>
+                <div style="font-weight:700;font-size:.9rem">${escapeHtml(s.name || 'Anonymous')} <span style="font-weight:400;color:var(--muted);font-size:.75rem">(${new Date(s.date).toLocaleDateString()})</span></div>
+                <div style="color:var(--text)">📧 <strong>Email:</strong> ${escapeHtml(s.email || 'N/A')}</div>
                 ${extraFields}
-                ${s.email ? `<a href="${replyLink}" target="_blank" class="btn btn-primary btn-sm" style="align-self:flex-start;margin-top:4px;text-decoration:none;font-size:.75rem;padding:6px 12px">✉️ Reply via Gmail</a>` : ''}
+                ${s.email ? `<a href="${replyLink}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="align-self:flex-start;margin-top:4px;text-decoration:none;font-size:.75rem;padding:6px 12px">✉️ Reply via Gmail</a>` : ''}
             </div>
             `;
         }).join('');
@@ -1002,10 +1014,10 @@
         try {
             const credential = await navigator.credentials.create({
                 publicKey: {
-                    challenge: new Uint8Array(32),
+                    challenge: crypto.getRandomValues(new Uint8Array(32)),
                     rp: { id: window.location.hostname, name: "Tharuncys Admin" },
                     user: {
-                        id: new Uint8Array(16),
+                        id: crypto.getRandomValues(new Uint8Array(16)),
                         name: "admin",
                         displayName: "Admin"
                     },

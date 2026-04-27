@@ -343,12 +343,12 @@
                         <div class="post-author">THARUNKUMAR M</div>
                         <div class="post-date">${new Date(post.date).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})} • ${new Date(post.date).toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}</div>
                     </div>
-                    <span class="post-badge ${post.type}">${typeLabel(post.type)}</span>
+                    <span class="post-badge ${escapeHtml(post.type)}">${typeLabel(post.type)}</span>
                 </div>
-                <div class="post-title">${post.title}</div>
+                <div class="post-title">${escapeHtml(post.title)}</div>
                 <div class="post-body">${escapeHtml(post.content)}</div>
-                ${post.image ? `<img src="${post.image}" alt="${post.title}" class="post-image" onerror="this.style.display='none'">` : ''}
-                ${post.link ? `<a href="${post.link}" target="_blank" class="post-link">🔗 View Resource</a>` : ''}
+                ${post.image ? `<img src="${sanitizeUrl(post.image)}" alt="${escapeHtml(post.title)}" class="post-image" onerror="this.style.display='none'">` : ''}
+                ${post.link ? `<a href="${sanitizeUrl(post.link)}" target="_blank" rel="noopener noreferrer" class="post-link">🔗 View Resource</a>` : ''}
                 <div class="post-actions">
                     <button onclick="toggleLike('${post.id}')" class="${isLiked ? 'liked' : ''}">${isLiked ? '❤️' : '🤍'} ${likeCount}</button>
                     <button onclick="toggleComments('${post.id}')">💬 ${visibleComments.length} Comment${visibleComments.length!==1?'s':''}</button>
@@ -357,7 +357,7 @@
                     <div class="comment-list" id="comment-list-${post.id}">
                         ${visibleComments.map(c => `
                             <div class="comment-item ${c.userId === ADMIN_ID ? 'admin-reply' : ''}">
-                                <div class="c-author">${c.userId === ADMIN_ID ? '⚡ Tharunkumar (Admin)' : '👤 ' + (c.name || 'Anonymous')}</div>
+                                <div class="c-author">${c.userId === ADMIN_ID ? '⚡ Tharunkumar (Admin)' : '👤 ' + escapeHtml(c.name || 'Anonymous')}</div>
                                 <div class="c-text">${escapeHtml(c.text)}</div>
                                 <div class="c-date">${new Date(c.date).toLocaleDateString()}</div>
                             </div>
@@ -438,7 +438,6 @@
     }
 
     /* ===== ADMIN SYSTEM ===== */
-    const DEFAULT_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
     let adminActive = false;
     let flAttempts = 0;
     let isUnlocked = false;
@@ -448,12 +447,13 @@
         return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
-    // Initialize password hash if missing (fallback to same as main portfolio)
-    (async () => {
-        if (!localStorage.getItem('admin_pwd_hash')) {
-            localStorage.setItem('admin_pwd_hash', await sha256('tharun@2025'));
-        }
-    })();
+    function sanitizeUrl(url) {
+        try {
+            const u = new URL(url);
+            if (u.protocol === 'http:' || u.protocol === 'https:' || u.protocol === 'mailto:') return url;
+        } catch (e) { /* invalid URL */ }
+        return '#';
+    }
 
     document.addEventListener('keydown', e => {
         if (e.ctrlKey && e.shiftKey && e.key === 'A') {
@@ -468,7 +468,7 @@
             try {
                 const assertion = await navigator.credentials.get({
                     publicKey: {
-                        challenge: new Uint8Array(32),
+                        challenge: crypto.getRandomValues(new Uint8Array(32)),
                         allowCredentials: [{
                             id: Uint8Array.from(atob(localStorage.getItem('admin_passkey_id')), c => c.charCodeAt(0)),
                             type: 'public-key'
@@ -514,7 +514,7 @@
             // 1. Check if it's the static password hash
             const hash = await sha256(input);
             const storedHash = localStorage.getItem('admin_pwd_hash');
-            if (hash === storedHash || hash === DEFAULT_HASH) {
+            if (storedHash && hash === storedHash) {
                 flAttempts = 0;
                 isUnlocked = true;
                 closeAdminModal();
@@ -669,7 +669,7 @@
         if (!posts.length) { c.innerHTML = '<div style="text-align:center;color:var(--muted);padding:20px">No posts yet.</div>'; return; }
         c.innerHTML = posts.sort((a,b) => new Date(b.date) - new Date(a.date)).map((p, i) => `
             <div style="margin-bottom:10px;padding:12px;background:var(--bg2);border-radius:10px;display:flex;align-items:center;gap:10px">
-                <span style="flex:1;font-size:.82rem;font-weight:600">${typeLabel(p.type)} ${p.title}</span>
+                <span style="flex:1;font-size:.82rem;font-weight:600">${typeLabel(p.type)} ${escapeHtml(p.title)}</span>
                 <button onclick="deletePost('${p.id}')" class="btn btn-danger btn-xs">✕ Delete</button>
             </div>
         `).join('');
@@ -708,8 +708,8 @@
             const replies = comments.filter(r => r.userId === ADMIN_ID && r.replyTo === cm.id);
             return `
             <div style="margin-bottom:14px;padding:14px;background:var(--bg2);border-radius:10px;border-left:3px solid var(--secondary)">
-                <div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">On: "${post ? post.title : 'Deleted Post'}"</div>
-                <div style="font-weight:700;font-size:.82rem;color:var(--secondary);margin-bottom:2px">👤 ${cm.name || 'Anonymous'}</div>
+                <div style="font-size:.72rem;color:var(--muted);margin-bottom:4px">On: "${post ? escapeHtml(post.title) : 'Deleted Post'}"</div>
+                <div style="font-weight:700;font-size:.82rem;color:var(--secondary);margin-bottom:2px">👤 ${escapeHtml(cm.name || 'Anonymous')}</div>
                 <div style="font-size:.82rem;color:var(--text);margin-bottom:6px">${escapeHtml(cm.text)}</div>
                 <div style="font-size:.68rem;color:var(--subtle);margin-bottom:8px">${new Date(cm.date).toLocaleString()}</div>
                 ${replies.length ? replies.map(r => `
@@ -766,10 +766,10 @@
         try {
             const credential = await navigator.credentials.create({
                 publicKey: {
-                    challenge: new Uint8Array(32),
+                    challenge: crypto.getRandomValues(new Uint8Array(32)),
                     rp: { id: window.location.hostname, name: "Tharuncys Admin" },
                     user: {
-                        id: new Uint8Array(16),
+                        id: crypto.getRandomValues(new Uint8Array(16)),
                         name: "admin",
                         displayName: "Admin"
                     },
