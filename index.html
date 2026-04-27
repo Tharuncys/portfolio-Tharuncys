@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="base-uri 'self'; form-action 'self';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THARUNKUMAR M | Developer Portfolio</title>
     <meta name="description"
@@ -1699,7 +1700,7 @@
                             <div class="proj-tech"><span>Embedded
                                     C</span><span>Arduino</span><span>IoT</span><span>Security</span></div>
                             <div class="proj-links">
-                                <a href="https://github.com/Tharuncys/hardwereIot-codes" target="_blank"
+                                <a href="https://github.com/Tharuncys/hardwereIot-codes" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-outline btn-sm">GitHub</a>
                             </div>
                         </div>
@@ -1715,7 +1716,7 @@
                                 automated enumeration and reporting.</p>
                             <div class="proj-tech"><span>Python</span><span>Nmap</span><span>Kali Linux</span></div>
                             <div class="proj-links">
-                                <a href="https://github.com/Tharuncys" target="_blank"
+                                <a href="https://github.com/Tharuncys" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-outline btn-sm">GitHub</a>
                             </div>
                         </div>
@@ -1733,7 +1734,7 @@
                             <div class="proj-tech"><span>Python</span><span>Wireshark</span><span>Raspberry Pi</span>
                             </div>
                             <div class="proj-links">
-                                <a href="https://github.com/Tharuncys" target="_blank"
+                                <a href="https://github.com/Tharuncys" target="_blank" rel="noopener noreferrer"
                                     class="btn btn-outline btn-sm">GitHub</a>
                             </div>
                         </div>
@@ -1758,18 +1759,18 @@
                         <a href="mailto:tharuncys@gmail.com" class="contact-btn email">
                             <span class="c-ico">✉️</span> Email Me
                         </a>
-                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" class="contact-btn linkedin">
+                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" rel="noopener noreferrer" class="contact-btn linkedin">
                             <span class="c-ico">💼</span> LinkedIn
                         </a>
-                        <a href="https://wa.me/" target="_blank" class="contact-btn whatsapp">
+                        <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" class="contact-btn whatsapp">
                             <span class="c-ico">💬</span> WhatsApp
                         </a>
                     </div>
                     <div class="social-row">
-                        <a href="https://github.com/Tharuncys" target="_blank" class="social-link" title="GitHub">GH</a>
-                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" class="social-link"
+                        <a href="https://github.com/Tharuncys" target="_blank" rel="noopener noreferrer" class="social-link" title="GitHub">GH</a>
+                        <a href="https://www.linkedin.com/in/tharuncys/" target="_blank" rel="noopener noreferrer" class="social-link"
                             title="LinkedIn">in</a>
-                        <a href="https://www.instagram.com/_tharun_m_0/" target="_blank" class="social-link"
+                        <a href="https://www.instagram.com/_tharun_m_0/" target="_blank" rel="noopener noreferrer" class="social-link"
                             title="Instagram">IG</a>
                     </div>
                 </div>
@@ -1931,22 +1932,28 @@
     });
 
     /* ===== ADMIN SYSTEM ===== */
-    const DEFAULT_HASH = '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8';
     let adminActive = false;
     let attempts = 0;
     let isUnlocked = false;
+
+    function esc(s) {
+        const d = document.createElement('div');
+        d.textContent = s == null ? '' : String(s);
+        return d.innerHTML;
+    }
+
+    function safeUrl(u) {
+        if (!u) return '#';
+        try {
+            const url = new URL(String(u), location.href);
+            return ['https:', 'http:', 'mailto:'].includes(url.protocol) ? esc(u) : '#';
+        } catch { return '#'; }
+    }
 
     async function sha256(str) {
         const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
         return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
-
-    // Initialize password hash if missing
-    (async () => {
-        if (!localStorage.getItem('admin_pwd_hash')) {
-            localStorage.setItem('admin_pwd_hash', await sha256('tharun@2025'));
-        }
-    })();
 
     document.addEventListener('keydown', e => {
         if (e.ctrlKey && e.shiftKey && e.key === 'A') {
